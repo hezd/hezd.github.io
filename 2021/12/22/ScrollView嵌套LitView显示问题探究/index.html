@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="ScrollView嵌套ListView显示不全问题及解决开发过程中如果ScrollView嵌套ListView并且layout_height都为match_parent，会发现ListView显示不全只显示第一个条目，在上面测量过程和父View对子View测量分析中我们可以知道View的高度是父VIew和子View配合协作的结果，下面就从源码角度去分析原因。 ScrollView高度怎么确定的S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ScrollView嵌套LitView显示问题探究">
+<meta property="og:url" content="http://example.com/2021/12/22/ScrollView%E5%B5%8C%E5%A5%97LitView%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6/index.html">
+<meta property="og:site_name" content="Hezd的博客">
+<meta property="og:description" content="ScrollView嵌套ListView显示不全问题及解决开发过程中如果ScrollView嵌套ListView并且layout_height都为match_parent，会发现ListView显示不全只显示第一个条目，在上面测量过程和父View对子View测量分析中我们可以知道View的高度是父VIew和子View配合协作的结果，下面就从源码角度去分析原因。 ScrollView高度怎么确定的S">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-22T11:36:53.000Z">
+<meta property="article:modified_time" content="2022-07-29T02:18:10.000Z">
+<meta property="article:author" content="hezd">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/22/ScrollView%E5%B5%8C%E5%A5%97LitView%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ScrollView嵌套LitView显示问题探究 | Hezd的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hezd的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Android Developer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/22/ScrollView%E5%B5%8C%E5%A5%97LitView%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ScrollView嵌套LitView显示问题探究
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-22 19:36:53" itemprop="dateCreated datePublished" datetime="2021-12-22T19:36:53+08:00">2021-12-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-29 10:18:10" itemprop="dateModified" datetime="2022-07-29T10:18:10+08:00">2022-07-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/" itemprop="url" rel="index"><span itemprop="name">疑难杂症</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="ScrollView嵌套ListView显示不全问题及解决"><a href="#ScrollView嵌套ListView显示不全问题及解决" class="headerlink" title="ScrollView嵌套ListView显示不全问题及解决"></a>ScrollView嵌套ListView显示不全问题及解决</h4><p>开发过程中如果ScrollView嵌套ListView并且layout_height都为match_parent，会发现ListView显示不全只显示第一个条目，在上面测量过程和父View对子View测量分析中我们可以知道View的高度是父VIew和子View配合协作的结果，下面就从源码角度去分析原因。</p>
+<h5 id="ScrollView高度怎么确定的"><a href="#ScrollView高度怎么确定的" class="headerlink" title="ScrollView高度怎么确定的"></a>ScrollView高度怎么确定的</h5><p>ScrollView高度是怎么确定的，为什么在布局里指定match_parent就填充满屏幕呢</p>
+<p>首先来看ScrollView的onMeasure方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 忽略部分代码……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用了父View的onMeasure也就是FrameLayout的onMeasure</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 忽略部分代码……</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 保存测量尺寸</span></span><br><span class="line">        setMeasuredDimension(resolveSizeAndState(maxWidth, widthMeasureSpec, childState),</span><br><span class="line">                resolveSizeAndState(maxHeight, heightMeasureSpec,</span><br><span class="line">                        childState &lt;&lt; MEASURED_HEIGHT_STATE_SHIFT));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到ScrollView的高度由heightMeasureSpec确定，heightMeasureSpec哪里来的呢？当然是它的父View也就是DecorView的子View就是mContentParent传递过来的约束（为什么是mContentParent可查看Activiey的setContentView源码），mContentParent的MeasureSpec来自它的父View就是DecorView，它测量是在ViewRootImpl的performTraversals中</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">performTraversals</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">// 忽略部分代码……</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">childWidthMeasureSpec</span> <span class="operator">=</span> getRootMeasureSpec(mWidth, lp.width);</span><br><span class="line">    <span class="type">int</span> <span class="variable">childHeightMeasureSpec</span> <span class="operator">=</span> getRootMeasureSpec(mHeight, lp.height);</span><br><span class="line">     <span class="comment">// Ask host how big it wants to be</span></span><br><span class="line">     performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getRootMeasureSpec</span><span class="params">(<span class="type">int</span> windowSize, <span class="type">int</span> rootDimension)</span> &#123;</span><br><span class="line">    <span class="type">int</span> measureSpec;</span><br><span class="line">    <span class="keyword">switch</span> (rootDimension) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> ViewGroup.LayoutParams.MATCH_PARENT:</span><br><span class="line">        <span class="comment">// Window can&#x27;t resize. Force root view to be windowSize.</span></span><br><span class="line">        measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.EXACTLY);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> ViewGroup.LayoutParams.WRAP_CONTENT:</span><br><span class="line">        <span class="comment">// Window can resize. Set max size for root view.</span></span><br><span class="line">        measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.AT_MOST);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// Window wants to be an exact size. Force root view to be that size.</span></span><br><span class="line">        measureSpec = MeasureSpec.makeMeasureSpec(rootDimension, MeasureSpec.EXACTLY);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> measureSpec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到DecorView的MeasureSpec是由getRootMeasureSpec来的，根据DecorView的布局信息LayoutParms类型指定，DecorView的布局是在PhoneWindow的generateLayout中指定的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> ViewGroup <span class="title function_">generateLayout</span><span class="params">(DecorView decor)</span> &#123;</span><br><span class="line">	<span class="comment">// 忽略部分代码……</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 根据窗口features确定layout以其中一个为例</span></span><br><span class="line">    <span class="type">int</span> layoutResource;</span><br><span class="line">	<span class="type">int</span> <span class="variable">features</span> <span class="operator">=</span> getLocalFeatures();</span><br><span class="line">    layoutResource = R.layout.screen_simple;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>screen_simple.xml</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:fitsSystemWindows</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ViewStub</span> <span class="attr">android:id</span>=<span class="string">&quot;@+id/action_mode_bar_stub&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:inflatedId</span>=<span class="string">&quot;@+id/action_mode_bar&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout</span>=<span class="string">&quot;@layout/action_mode_bar&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:theme</span>=<span class="string">&quot;?attr/actionBarTheme&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:id</span>=<span class="string">&quot;@android:id/content&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:foregroundInsidePadding</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:foregroundGravity</span>=<span class="string">&quot;fill_horizontal|top&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:foreground</span>=<span class="string">&quot;?android:attr/windowContentOverlay&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到DecorView的布局信息LayoutParams指定的match_parent,在回头看getRootMeasureSpec</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getRootMeasureSpec</span><span class="params">(<span class="type">int</span> windowSize, <span class="type">int</span> rootDimension)</span> &#123;</span><br><span class="line">    <span class="type">int</span> measureSpec;</span><br><span class="line">    <span class="keyword">switch</span> (rootDimension) &#123;</span><br><span class="line">    <span class="keyword">case</span> ViewGroup.LayoutParams.MATCH_PARENT:</span><br><span class="line">        <span class="comment">// Window can&#x27;t resize. Force root view to be windowSize.</span></span><br><span class="line">        measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.EXACTLY);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> ViewGroup.LayoutParams.WRAP_CONTENT:</span><br><span class="line">        <span class="comment">// Window can resize. Set max size for root view.</span></span><br><span class="line">        measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.AT_MOST);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// Window wants to be an exact size. Force root view to be that size.</span></span><br><span class="line">        measureSpec = MeasureSpec.makeMeasureSpec(rootDimension, MeasureSpec.EXACTLY);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> measureSpec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于布局信息LayoutParams是match_parent，所以DecorView的MeasureSpec尺寸是窗体可用空间，模式是EXACTLY。</p>
+<p>mContentParent的MeasureSpec从哪儿来呢，来自DecorView的onMeasure对子view测量过程中传递而来，DecorView继承Framelayout最终会调用ViewGroup的getChildMeasureSpec</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getChildMeasureSpec</span><span class="params">(<span class="type">int</span> spec, <span class="type">int</span> padding, <span class="type">int</span> childDimension)</span> &#123;</span><br><span class="line">    <span class="comment">// 父view的MeasureSpec约束</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">specMode</span> <span class="operator">=</span> MeasureSpec.getMode(spec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">specSize</span> <span class="operator">=</span> MeasureSpec.getSize(spec);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">size</span> <span class="operator">=</span> Math.max(<span class="number">0</span>, specSize - padding);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">resultSize</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">resultMode</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 通过父View的MeasureSpec结合子View的布局信息</span></span><br><span class="line">    <span class="comment">// 计算出子View的MeasureSpec约束</span></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="comment">// Parent has imposed an exact size on us</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size. So be it.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size. It can&#x27;t be</span></span><br><span class="line">            <span class="comment">// bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent has imposed a maximum size on us</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Child wants a specific size... so be it</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size, but our size is not fixed.</span></span><br><span class="line">            <span class="comment">// Constrain child to not be bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size. It can&#x27;t be</span></span><br><span class="line">            <span class="comment">// bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent asked to see how big we want to be</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Child wants a specific size... let him have it</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size... find out how big it should</span></span><br><span class="line">            <span class="comment">// be</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size.... find out how</span></span><br><span class="line">            <span class="comment">// big it should be</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//noinspection ResourceType</span></span><br><span class="line">    <span class="keyword">return</span> MeasureSpec.makeMeasureSpec(resultSize, resultMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为DecorView的specMode是EXACTLY，size是窗体可用空间，从screen_simple布局文件中我们可以看到mContentParent的布局信息LayoutParams为match_parent可以得出mContentParent的specSize为窗体可用空间specMode为EXACTLY，而mContentParent又是一个FrameLayout同DecorView测量过程一样进而可以得出ScrollView的specSize为窗体可用空间specMode为EXACTLY</p>
+<p>而我们知道View测量尺寸有两个过程一个是父View获取子VIew的约束MeasureSpec并传递给子View，另一个是setMeasureDimension最终确定测量尺寸。ScrollView的setMeasureSpec是由onMeasure-&gt;Framelayout的onMeasure-&gt;setMeasureDimension</p>
+<p>FrameLayout.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> getChildCount();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">measureMatchParentChildren</span> <span class="operator">=</span></span><br><span class="line">            MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY ||</span><br><span class="line">            MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;</span><br><span class="line">    mMatchParentChildren.clear();</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">maxHeight</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxWidth</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">childState</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(i);</span><br><span class="line">        <span class="keyword">if</span> (mMeasureAllChildren || child.getVisibility() != GONE) &#123;</span><br><span class="line">            measureChildWithMargins(child, widthMeasureSpec, <span class="number">0</span>, heightMeasureSpec, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">final</span> <span class="type">LayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (LayoutParams) child.getLayoutParams();</span><br><span class="line">            maxWidth = Math.max(maxWidth,</span><br><span class="line">                    child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);</span><br><span class="line">            maxHeight = Math.max(maxHeight,</span><br><span class="line">                    child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);</span><br><span class="line">            childState = combineMeasuredStates(childState, child.getMeasuredState());</span><br><span class="line">            <span class="keyword">if</span> (measureMatchParentChildren) &#123;</span><br><span class="line">                <span class="keyword">if</span> (lp.width == LayoutParams.MATCH_PARENT ||</span><br><span class="line">                        lp.height == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">                    mMatchParentChildren.add(child);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Account for padding too</span></span><br><span class="line">    maxWidth += getPaddingLeftWithForeground() + getPaddingRightWithForeground();</span><br><span class="line">    maxHeight += getPaddingTopWithForeground() + getPaddingBottomWithForeground();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check against our minimum height and width</span></span><br><span class="line">    maxHeight = Math.max(maxHeight, getSuggestedMinimumHeight());</span><br><span class="line">    maxWidth = Math.max(maxWidth, getSuggestedMinimumWidth());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check against our foreground&#x27;s minimum height and width</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">Drawable</span> <span class="variable">drawable</span> <span class="operator">=</span> getForeground();</span><br><span class="line">    <span class="keyword">if</span> (drawable != <span class="literal">null</span>) &#123;</span><br><span class="line">        maxHeight = Math.max(maxHeight, drawable.getMinimumHeight());</span><br><span class="line">        maxWidth = Math.max(maxWidth, drawable.getMinimumWidth());</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 确定最终测量尺寸</span></span><br><span class="line">    <span class="comment">// maxHeight是子View高度这里就是ListView高度</span></span><br><span class="line">    setMeasuredDimension(resolveSizeAndState(maxWidth, widthMeasureSpec, childState),</span><br><span class="line">            resolveSizeAndState(maxHeight, heightMeasureSpec,</span><br><span class="line">                    childState &lt;&lt; MEASURED_HEIGHT_STATE_SHIFT));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>setMeasureDimension的measureHeight又调用了resolveSizeAndState</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">resolveSizeAndState</span><span class="params">(<span class="type">int</span> size, <span class="type">int</span> measureSpec, <span class="type">int</span> childMeasuredState)</span> &#123;</span><br><span class="line">    <span class="comment">// size在这里就是ListView高度</span></span><br><span class="line">    <span class="comment">// specMode有上面分析知道specMode是EXACTLY</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">specMode</span> <span class="operator">=</span> MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="comment">// specSize由上面代码分析就是窗体高度</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">specSize</span> <span class="operator">=</span> MeasureSpec.getSize(measureSpec);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> result;</span><br><span class="line">    <span class="comment">// ScrollView的specMode跟layout_height对应关系</span></span><br><span class="line">    <span class="comment">// 可根据上面FrameLayout的measureChildWithMargins代码分析得出</span></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="comment">// ScrollView的layout_height指定wrap_content</span></span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">            <span class="keyword">if</span> (specSize &lt; size) &#123;</span><br><span class="line">                result = specSize | MEASURED_STATE_TOO_SMALL;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result = size;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">         <span class="comment">// ScrollView的layout_height指定match_parent</span></span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            result = size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result | (childMeasuredState &amp; MEASURED_STATE_MASK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>结论：通过源码分析可以得出，ScrollView嵌套ListView当ScrollView高度layout_height为match_parent时高度为窗体可用高度，layout_height为wrap_content时高度为ListView的高度</p>
+<h5 id="ListView高度怎么确定"><a href="#ListView高度怎么确定" class="headerlink" title="ListView高度怎么确定"></a>ListView高度怎么确定</h5><p>旧话重提View的高度是父View和子View配合协作的结果，先看ListView的onMeasure方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="comment">// Sets up mListPadding</span></span><br><span class="line">    <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">widthMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">heightMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">widthSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">heightSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">childWidth</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">childHeight</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">childState</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    mItemCount = mAdapter == <span class="literal">null</span> ? <span class="number">0</span> : mAdapter.getCount();</span><br><span class="line">    <span class="keyword">if</span> (mItemCount &gt; <span class="number">0</span> &amp;&amp; (widthMode == MeasureSpec.UNSPECIFIED</span><br><span class="line">            || heightMode == MeasureSpec.UNSPECIFIED)) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> obtainView(<span class="number">0</span>, mIsScrap);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Lay out child directly against the parent measure spec so that</span></span><br><span class="line">        <span class="comment">// we can obtain exected minimum width and height.</span></span><br><span class="line">        <span class="comment">// 如果父View传递的specMode约束为UNSPECIFIED测量第一个条目高度childHeight</span></span><br><span class="line">        measureScrapChild(child, <span class="number">0</span>, widthMeasureSpec, heightSize);</span><br><span class="line"></span><br><span class="line">        childWidth = child.getMeasuredWidth();</span><br><span class="line">        childHeight = child.getMeasuredHeight();</span><br><span class="line">        childState = combineMeasuredStates(childState, child.getMeasuredState());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (recycleOnMeasure() &amp;&amp; mRecycler.shouldRecycleViewType(</span><br><span class="line">                ((LayoutParams) child.getLayoutParams()).viewType)) &#123;</span><br><span class="line">            mRecycler.addScrapView(child, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (widthMode == MeasureSpec.UNSPECIFIED) &#123;</span><br><span class="line">        widthSize = mListPadding.left + mListPadding.right + childWidth +</span><br><span class="line">                getVerticalScrollbarWidth();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        widthSize |= (childState &amp; MEASURED_STATE_MASK);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (heightMode == MeasureSpec.UNSPECIFIED) &#123;</span><br><span class="line">        <span class="comment">// 如果父View传递的约束specMode为UNSPECIFIED</span></span><br><span class="line">        <span class="comment">// ListView高度就为第一个条目高度childHeight（另外还有padding，edge）</span></span><br><span class="line">        heightSize = mListPadding.top + mListPadding.bottom + childHeight +</span><br><span class="line">                getVerticalFadingEdgeLength() * <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">if</span> (heightMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> after first layout we should maybe start at the first visible position, not 0</span></span><br><span class="line">        <span class="comment">// 如果父View传递的约束specMode是AT_MOST</span></span><br><span class="line">        <span class="comment">// ListView高度为所有子条目高度累加结果</span></span><br><span class="line">        heightSize = measureHeightOfChildren(widthMeasureSpec, <span class="number">0</span>, NO_POSITION, heightSize, -<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">// 保存测量尺寸 heightSize就是ListView测量高度</span></span><br><span class="line">    setMeasuredDimension(widthSize, heightSize);</span><br><span class="line"></span><br><span class="line">    mWidthMeasureSpec = widthMeasureSpec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从代码来看如果父View传递的约束specMode为UNSPECIFIED时ListView高度heightSize为第一个条目高度，跟我们开头说的现象一致，那么父View-&gt;ScrollView传递的约束specMode是不是UNSPECIFIED呢，来看ScrollView的onMeasure</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果ScrollView的fillViewport为false测量结束</span></span><br><span class="line">    <span class="keyword">if</span> (!mFillViewport) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// 如果fillViewport为true，重新测量</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">heightMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">if</span> (heightMode == MeasureSpec.UNSPECIFIED) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (getChildCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取第一个条目child，ScrollView也只能有一个子View</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> widthPadding;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> heightPadding;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">targetSdkVersion</span> <span class="operator">=</span> getContext().getApplicationInfo().targetSdkVersion;</span><br><span class="line">        <span class="keyword">final</span> FrameLayout.<span class="type">LayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (LayoutParams) child.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (targetSdkVersion &gt;= VERSION_CODES.M) &#123;</span><br><span class="line">            widthPadding = mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin;</span><br><span class="line">            heightPadding = mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            widthPadding = mPaddingLeft + mPaddingRight;</span><br><span class="line">            heightPadding = mPaddingTop + mPaddingBottom;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">desiredHeight</span> <span class="operator">=</span> getMeasuredHeight() - heightPadding;</span><br><span class="line">        <span class="comment">// 如果child测量高度小于ScrollView高度，重新测量</span></span><br><span class="line">        <span class="keyword">if</span> (child.getMeasuredHeight() &lt; desiredHeight) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childWidthMeasureSpec</span> <span class="operator">=</span> getChildMeasureSpec(</span><br><span class="line">                    widthMeasureSpec, widthPadding, lp.width);</span><br><span class="line">            <span class="comment">// 设置约束specMode为EXACTLY</span></span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childHeightMeasureSpec</span> <span class="operator">=</span> MeasureSpec.makeMeasureSpec(</span><br><span class="line">                    desiredHeight, MeasureSpec.EXACTLY);</span><br><span class="line">            <span class="comment">// 重新测量</span></span><br><span class="line">            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从源码可以看到ScrollView子View可能会进行两次测量，第一次测量调用父类的Measure方法进行测量，如果fillViewport为true会进行二次测量，下面对两次测量进行分析</p>
+<p>第一次测量</p>
+<p>调用父类onMeasure方法，ScrollView的父类是FrameLayout来看它的onMeasure方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> getChildCount();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">measureMatchParentChildren</span> <span class="operator">=</span></span><br><span class="line">            MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY ||</span><br><span class="line">            MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;</span><br><span class="line">    mMatchParentChildren.clear();</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">maxHeight</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxWidth</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">childState</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(i);</span><br><span class="line">        <span class="keyword">if</span> (mMeasureAllChildren || child.getVisibility() != GONE) &#123;</span><br><span class="line">            <span class="comment">// 对子View进行测量</span></span><br><span class="line">            measureChildWithMargins(child, widthMeasureSpec, <span class="number">0</span>, heightMeasureSpec, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">final</span> <span class="type">LayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (LayoutParams) child.getLayoutParams();</span><br><span class="line">            maxWidth = Math.max(maxWidth,</span><br><span class="line">                    child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);</span><br><span class="line">            maxHeight = Math.max(maxHeight,</span><br><span class="line">                    child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);</span><br><span class="line">            childState = combineMeasuredStates(childState, child.getMeasuredState());</span><br><span class="line">            <span class="keyword">if</span> (measureMatchParentChildren) &#123;</span><br><span class="line">                <span class="keyword">if</span> (lp.width == LayoutParams.MATCH_PARENT ||</span><br><span class="line">                        lp.height == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">                    mMatchParentChildren.add(child);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 忽略部分代码……</span></span><br><span class="line"></span><br><span class="line">    setMeasuredDimension(resolveSizeAndState(maxWidth, widthMeasureSpec, childState),</span><br><span class="line">            resolveSizeAndState(maxHeight, heightMeasureSpec,</span><br><span class="line">                    childState &lt;&lt; MEASURED_HEIGHT_STATE_SHIFT));</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>FrameLayout的onMeasure会调用measureChildWithMargins方法对子View进行测量，需要注意的是ScrollView重写了measureChildWithMargins方法，所以看ScrollView的measureChildWithMargins</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">measureChildWithMargins</span><span class="params">(View child, <span class="type">int</span> parentWidthMeasureSpec, <span class="type">int</span> widthUsed,</span></span><br><span class="line"><span class="params">        <span class="type">int</span> parentHeightMeasureSpec, <span class="type">int</span> heightUsed)</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">MarginLayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (MarginLayoutParams) child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childWidthMeasureSpec</span> <span class="operator">=</span> getChildMeasureSpec(parentWidthMeasureSpec,</span><br><span class="line">            mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin</span><br><span class="line">                    + widthUsed, lp.width);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">usedTotal</span> <span class="operator">=</span> mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin +</span><br><span class="line">            heightUsed;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将子View约束specMode设置为UNSPECIFIED</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childHeightMeasureSpec</span> <span class="operator">=</span> MeasureSpec.makeSafeMeasureSpec(</span><br><span class="line">            Math.max(<span class="number">0</span>, MeasureSpec.getSize(parentHeightMeasureSpec) - usedTotal),</span><br><span class="line">            MeasureSpec.UNSPECIFIED);</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// 调用子View的measure方法进行测量</span></span><br><span class="line">    child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以到这里真相大白了，ScrollView传递给子View的约束specMode为UNSPECIFIED，所以导致了显示不全。另外上面提到了如果ScrollView的fillViewport为true子View会进行二次测量会对显示结果有什么影响呢</p>
+<p>Go ahead</p>
+<p>二次测量</p>
+<p>在继续回看ScrollView的onMeasure</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果ScrollView的fillViewport为false测量结束</span></span><br><span class="line">    <span class="keyword">if</span> (!mFillViewport) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// 如果fillViewport为true，重新测量</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">heightMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">if</span> (heightMode == MeasureSpec.UNSPECIFIED) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (getChildCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取第一个条目child，ScrollView也只能有一个子View</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> widthPadding;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> heightPadding;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">targetSdkVersion</span> <span class="operator">=</span> getContext().getApplicationInfo().targetSdkVersion;</span><br><span class="line">        <span class="keyword">final</span> FrameLayout.<span class="type">LayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (LayoutParams) child.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (targetSdkVersion &gt;= VERSION_CODES.M) &#123;</span><br><span class="line">            widthPadding = mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin;</span><br><span class="line">            heightPadding = mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            widthPadding = mPaddingLeft + mPaddingRight;</span><br><span class="line">            heightPadding = mPaddingTop + mPaddingBottom;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">desiredHeight</span> <span class="operator">=</span> getMeasuredHeight() - heightPadding;</span><br><span class="line">        <span class="comment">// 如果child测量高度小于ScrollView高度，重新测量</span></span><br><span class="line">        <span class="keyword">if</span> (child.getMeasuredHeight() &lt; desiredHeight) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childWidthMeasureSpec</span> <span class="operator">=</span> getChildMeasureSpec(</span><br><span class="line">                    widthMeasureSpec, widthPadding, lp.width);</span><br><span class="line">            <span class="comment">// 设置约束specMode为EXACTLY</span></span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childHeightMeasureSpec</span> <span class="operator">=</span> MeasureSpec.makeMeasureSpec(</span><br><span class="line">                    desiredHeight, MeasureSpec.EXACTLY);</span><br><span class="line">            <span class="comment">// 重新测量</span></span><br><span class="line">            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在在来看这段代码就很清晰了，如果fillViewport为true进行二次测量时ScrollView传递给子View的specMode为EXACTLY结合上面ListView的onMeasure代码分析可以知道如果fillViewport为true的情况下ListView的高度为子条目高度之和也会是我们预期结果。</p>
+<h5 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h5><p>默认情况下ScrollView嵌套ListView只会显示第一个条目，如果ScrollView的fillViewport为true会进行二次测量结果ListView高度就是预期的所有子条目高度之和。</p>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>通过上面源码分析很容易找到解决方案</p>
+<p>1.重写ListView修正父View传递的约束specMode为AT_MOST或者EXACTLY</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@author</span> hezd</span></span><br><span class="line"><span class="comment"> *Create on 2021/12/22 16:51</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyListView</span>(context: Context?, attrs: AttributeSet?) : ListView(context, attrs) &#123;</span><br><span class="line">    override fun <span class="title function_">onMeasure</span><span class="params">(widthMeasureSpec: Int, heightMeasureSpec: Int)</span> &#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">size</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec)</span><br><span class="line">        <span class="type">val</span> <span class="variable">newHeightSpec</span> <span class="operator">=</span> MeasureSpec.makeMeasureSpec(size,MeasureSpec.EXACTLY)</span><br><span class="line">		<span class="comment">// val newHeightSpec = MeasureSpec.makeMeasureSpec(size,MeasureSpec.AT_MOST)</span></span><br><span class="line">        <span class="built_in">super</span>.onMeasure(widthMeasureSpec, newHeightSpec)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.将ScrollVIew的fillVIewport属性设置为true</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">data</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ScrollView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:fillViewport</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">ListView</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/listView&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ScrollView</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>两种方案对比：第一种方式最优因为只测量一次，第二种方式会两次测量性能有损耗</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%BA%90%E7%A0%81/" rel="tag"># 源码</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/22/View%E6%B5%8B%E9%87%8F%E5%92%8C%E5%B8%83%E5%B1%80/" rel="prev" title="View测量和布局">
+      <i class="fa fa-chevron-left"></i> View测量和布局
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/24/%E8%87%AA%E5%AE%9A%E4%B9%89ViewGroup/" rel="next" title="自定义ViewGroup">
+      自定义ViewGroup <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#ScrollView%E5%B5%8C%E5%A5%97ListView%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3"><span class="nav-number">1.</span> <span class="nav-text">ScrollView嵌套ListView显示不全问题及解决</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ScrollView%E9%AB%98%E5%BA%A6%E6%80%8E%E4%B9%88%E7%A1%AE%E5%AE%9A%E7%9A%84"><span class="nav-number">1.1.</span> <span class="nav-text">ScrollView高度怎么确定的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ListView%E9%AB%98%E5%BA%A6%E6%80%8E%E4%B9%88%E7%A1%AE%E5%AE%9A"><span class="nav-number">1.2.</span> <span class="nav-text">ListView高度怎么确定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">1.3.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.</span> <span class="nav-text">解决方案</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hezd"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">hezd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hezd" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hezd" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dreamkid0924@gmail.com" title="E-Mail → mailto:dreamkid0924@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hezd</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'f07c0b1ea70211573307',
+      clientSecret: '5bd922578a839e1a3f1ad2b25e32dbbd49180b4f',
+      repo        : 'hezd.github.io',
+      owner       : 'hezd',
+      admin       : ['hezd'],
+      id          : '7e583d83baa6397ae00305e8f589e739',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
