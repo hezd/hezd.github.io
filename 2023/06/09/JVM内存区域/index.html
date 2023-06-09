@@ -20,15 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hezd的博客">
-<meta property="og:url" content="http://example.com/archives/page/2/index.html">
+  <meta name="description" content="JVM内存区域Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。 JVM规范中定义的内存区域有： 程序计数器、虚拟机栈、本地方方法栈、方法区、堆。 程序计数器在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用 JVM规范中没有对程序计数器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM内存区域">
+<meta property="og:url" content="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/index.html">
 <meta property="og:site_name" content="Hezd的博客">
+<meta property="og:description" content="JVM内存区域Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。 JVM规范中定义的内存区域有： 程序计数器、虚拟机栈、本地方方法栈、方法区、堆。 程序计数器在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用 JVM规范中没有对程序计数器">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-09T08:49:10.000Z">
+<meta property="article:modified_time" content="2023-06-09T08:51:13.111Z">
 <meta property="article:author" content="hezd">
+<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/archives/page/2/">
+<link rel="canonical" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
 
 
 <script id="page-configurations">
@@ -36,12 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | Hezd的博客</title>
+  <title>JVM内存区域 | Hezd的博客</title>
   
 
 
@@ -183,139 +188,133 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 15 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM内存区域
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-09 16:49:10 / 修改时间：16:51:13" itemprop="dateCreated datePublished" datetime="2023-06-09T16:49:10+08:00">2023-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-22T19:36:53+08:00"
-              content="2021-12-22">
-          12-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/22/ScrollView%E5%B5%8C%E5%A5%97LitView%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6/" itemprop="url">
-            <span itemprop="name">ScrollView嵌套LitView显示问题探究</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-22T19:12:46+08:00"
-              content="2021-12-22">
-          12-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/22/View%E6%B5%8B%E9%87%8F%E5%92%8C%E5%B8%83%E5%B1%80/" itemprop="url">
-            <span itemprop="name">View测量和布局</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-11-22T15:53:55+08:00"
-              content="2021-11-22">
-          11-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/11/22/View%E6%BB%91%E5%8A%A8/" itemprop="url">
-            <span itemprop="name">View滑动</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-11-10T16:47:23+08:00"
-              content="2021-11-10">
-          11-10
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/11/10/AIDL/" itemprop="url">
-            <span itemprop="name">AIDL</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-11-08T20:22:37+08:00"
-              content="2021-11-08">
-          11-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/11/08/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/" itemprop="url">
-            <span itemprop="name">Android消息机制</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <h1 id="JVM内存区域"><a href="#JVM内存区域" class="headerlink" title="JVM内存区域"></a>JVM内存区域</h1><p>Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。</p>
+<p>JVM规范中定义的内存区域有：</p>
+<p>程序计数器、虚拟机栈、本地方方法栈、方法区、堆。</p>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用</p>
+<p>JVM规范中没有对程序计数器定义OutOfMemory之类的异常</p>
+<p>程序计数器是线程私有的，生命周期同线程一样</p>
+<blockquote>
+<p>如果线程执行的是Java方法代码实际上记录的是当前执行的class字节码指令的地址</p>
+<p>如果是是native方法记录会为空（undefined）</p>
+</blockquote>
+<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>虚拟机栈是用来描述Java方法执行的内存模型，每个Java方法在执行时JVM都会在虚拟机栈中创建一个栈帧</p>
+<p>栈帧包含：</p>
+<p>局部常量表、操作数栈、动态链接、返回地址</p>
+<p>JVM规范定义虚拟机栈的异常有：OutofMemoryError、StackOverFlowError</p>
+<p>虚拟机栈是线程私有的，生命周期同线程一样</p>
+<blockquote>
+<p>局部常量表：保存方法局部变量</p>
+<p>操作数栈：对常量表中的数据进行算术运算</p>
+<p>动态链接：方法调用时的方法符号转化为方法所在内存中地址的直接引用</p>
+<p>返回地址：方法执行完后要返回的代码位置</p>
+</blockquote>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方方法栈是针对于native方法的栈与虚拟机栈类似</p>
+<p>本地方法栈是线程私有，生命周期同线程一样</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区存储的是被JVM加载过的类信息、常量等数据</p>
+<p>方法区数据是线程共享</p>
+<blockquote>
+<p>方法区是JVM规范，永久代和元空间是方法区的具体实现</p>
+</blockquote>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆存放的数据是Java程序运行时产生的对象实例</p>
+<p>JVM规范定义的堆的异常有：OutOfMemoryError</p>
+<p>堆数据是线程共享的</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/10/%E4%B8%89%E6%96%B9%E5%BA%93%E8%BF%81%E7%A7%BB%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" rel="prev" title="三方库迁移至私有仓库">
+      <i class="fa fa-chevron-left"></i> 三方库迁移至私有仓库
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-  </nav>
+  
+  
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -362,6 +361,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.</span> <span class="nav-text">JVM内存区域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">1.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">1.4.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">1.5.</span> <span class="nav-text">堆</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -509,6 +509,25 @@
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'f07c0b1ea70211573307',
+      clientSecret: '5bd922578a839e1a3f1ad2b25e32dbbd49180b4f',
+      repo        : 'hezd.github.io',
+      owner       : 'hezd',
+      admin       : ['hezd'],
+      id          : '6970b667081b0549777fd73fd4e77285',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
