@@ -20,20 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="JVM内存区域Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。 JVM规范中定义的内存区域有： 程序计数器、虚拟机栈、本地方方法栈、方法区、堆。 程序计数器在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用 JVM规范中没有对程序计数器">
+  <meta name="description" content="GC回收机制简介GC是Garbage Collection垃圾回收的英文释义 什么是垃圾呢，垃圾是指内存中无用的对象。如何判断那些对象是无用对象呢，可以通过可达性分析来判断。 那什么是可达性分析呢，可达性分析是指将内存中的对象引用关系用一张图来表示，GC Root对象作为顶点，对象引用关系连接线走过的路径叫做引用链，如果一个对象的引用链对Gc Root是不可达的那就认为这个对象是无用对象。 Gc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM内存区域">
-<meta property="og:url" content="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/index.html">
+<meta property="og:title" content="Gc回收机制与分代回收策略">
+<meta property="og:url" content="http://example.com/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/index.html">
 <meta property="og:site_name" content="Hezd的博客">
-<meta property="og:description" content="JVM内存区域Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。 JVM规范中定义的内存区域有： 程序计数器、虚拟机栈、本地方方法栈、方法区、堆。 程序计数器在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用 JVM规范中没有对程序计数器">
+<meta property="og:description" content="GC回收机制简介GC是Garbage Collection垃圾回收的英文释义 什么是垃圾呢，垃圾是指内存中无用的对象。如何判断那些对象是无用对象呢，可以通过可达性分析来判断。 那什么是可达性分析呢，可达性分析是指将内存中的对象引用关系用一张图来表示，GC Root对象作为顶点，对象引用关系连接线走过的路径叫做引用链，如果一个对象的引用链对Gc Root是不可达的那就认为这个对象是无用对象。 Gc">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-09T08:49:10.000Z">
-<meta property="article:modified_time" content="2023-06-13T02:01:06.824Z">
+<meta property="og:image" content="https://github.com/hezd/Image-Folders/blob/master/Blog/%E5%88%86%E4%BB%A3%E7%AD%96%E7%95%A5.png?raw=true">
+<meta property="article:published_time" content="2023-06-13T07:32:50.000Z">
+<meta property="article:modified_time" content="2023-06-13T07:35:26.403Z">
 <meta property="article:author" content="hezd">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/hezd/Image-Folders/blob/master/Blog/%E5%88%86%E4%BB%A3%E7%AD%96%E7%95%A5.png?raw=true">
 
-<link rel="canonical" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+<link rel="canonical" href="http://example.com/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">
 
 
 <script id="page-configurations">
@@ -46,7 +48,7 @@
   };
 </script>
 
-  <title>JVM内存区域 | Hezd的博客</title>
+  <title>Gc回收机制与分代回收策略 | Hezd的博客</title>
   
 
 
@@ -195,7 +197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -208,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          JVM内存区域
+          Gc回收机制与分代回收策略
         </h1>
 
         <div class="post-meta">
@@ -217,16 +219,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-06-09 16:49:10" itemprop="dateCreated datePublished" datetime="2023-06-09T16:49:10+08:00">2023-06-09</time>
+              <time title="创建时间：2023-06-13 15:32:50 / 修改时间：15:35:26" itemprop="dateCreated datePublished" datetime="2023-06-13T15:32:50+08:00">2023-06-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-13 10:01:06" itemprop="dateModified" datetime="2023-06-13T10:01:06+08:00">2023-06-13</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -259,37 +255,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="JVM内存区域"><a href="#JVM内存区域" class="headerlink" title="JVM内存区域"></a>JVM内存区域</h1><p>Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。</p>
-<p>JVM规范中定义的内存区域有：</p>
-<p>程序计数器、虚拟机栈、本地方方法栈、方法区、堆。</p>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用</p>
-<p>JVM规范中没有对程序计数器定义OutOfMemory之类的异常</p>
-<p>程序计数器是线程私有的，生命周期同线程一样</p>
+        <h2 id="GC回收机制"><a href="#GC回收机制" class="headerlink" title="GC回收机制"></a>GC回收机制</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h3><p>GC是Garbage Collection垃圾回收的英文释义</p>
+<p>什么是垃圾呢，垃圾是指内存中无用的对象。如何判断那些对象是无用对象呢，可以通过可达性分析来判断。</p>
+<p>那什么是可达性分析呢，可达性分析是指将内存中的对象引用关系用一张图来表示，GC Root对象作为顶点，对象引用关系连接线走过的路径叫做引用链，如果一个对象的引用链对Gc Root是不可达的那就认为这个对象是无用对象。</p>
+<h3 id="Gc-Root"><a href="#Gc-Root" class="headerlink" title="Gc Root"></a><strong>Gc Root</strong></h3><ul>
+<li>虚拟机栈局部变量表中引用的对象</li>
+<li>方法区中静态引用的对象</li>
+<li>存活的线程对象</li>
+<li>Native方法中JNI引用的对象</li>
+</ul>
+<h3 id="何时回收"><a href="#何时回收" class="headerlink" title="何时回收"></a><strong>何时回收</strong></h3><p>不同虚拟机会有不同的gc回收机制，一般来说以下两种情况都会触发垃圾回收：</p>
+<p>1.Allocation Failure：当内存过低导致内存分配时，会触发一次gc</p>
+<p>2.System.gc():应用层主动调用gc api</p>
+<h3 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a><strong>回收算法</strong></h3><p>gc回收算法常见的有三种分别是标记清除、复制清除、标记压缩</p>
+<h4 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h4><p>标记清除分为两个阶段</p>
+<p>标记阶段：</p>
+<p>从顶点的Gc Root对象开始遍历引用链，将垃圾对象标记为黑色，否则标记为灰色</p>
+<p>清除阶段：</p>
+<p>标记完成后，将垃圾对象全部清除</p>
+<p>优点：操作简单</p>
+<p>缺点：可能会产生内存碎片</p>
+<h4 id="复制清除"><a href="#复制清除" class="headerlink" title="复制清除"></a>复制清除</h4><p>将内存分为AB两块，每次只使用一块内存，将A内存设置为可用内存，gc回收时遍历Gc Root引用链进行标记，</p>
+<p>标记完成后，将存活对象复制到B内存块中，将A内存中的对象全部清除，将B内存设置为可用内存</p>
+<p>优点：运行高效，不会产生内存碎片</p>
+<p>缺点：可用内存会变为原来的一半</p>
+<h4 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h4><p>标记压缩也分为两个阶段</p>
+<p>标记阶段：</p>
+<p>遍历Gc Root引用链，标记无用对象为黑色否则为灰色</p>
+<p>压缩阶段：</p>
+<p>将存活对象压缩到内存的另一端，清除垃圾对象</p>
+<p>优点：不会产生内存碎片，不会造成内存浪费</p>
+<p>缺点：对象需要移动，一定程度上造成性能损失</p>
+<h2 id="分代回收策略"><a href="#分代回收策略" class="headerlink" title="分代回收策略"></a>分代回收策略</h2><p>虚拟机根据对象存活周期不同将堆内存分为几块，一般来说会分为新生代和老年代。新生代又分为eden、survivior0、survivor2三个区，新生代多次回收后还存活的对象会进入老年代。</p>
 <blockquote>
-<p>如果线程执行的是Java方法代码实际上记录的是当前执行的class字节码指令的地址</p>
-<p>如果是是native方法记录会为空（undefined）</p>
+<p>Hotspot除了新生代和老年代还有一个永久代</p>
 </blockquote>
-<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>虚拟机栈是用来描述Java方法执行的内存模型，每个Java方法在执行时JVM都会在虚拟机栈中创建一个栈帧</p>
-<p>栈帧包含：</p>
-<p>局部常量表、操作数栈、动态链接、返回地址</p>
-<p>JVM规范定义虚拟机栈的异常有：OutofMemoryError、StackOverFlowError</p>
-<p>虚拟机栈是线程私有的，生命周期同线程一样</p>
-<blockquote>
-<p>局部常量表：保存方法局部变量</p>
-<p>操作数栈：对常量表中的数据进行算术运算</p>
-<p>动态链接：方法调用时的方法符号转化为方法所在内存中地址的直接引用</p>
-<p>返回地址：方法执行完后要返回的代码位置</p>
-</blockquote>
-<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方方法栈是针对于native方法的栈与虚拟机栈类似</p>
-<p>本地方法栈是线程私有，生命周期同线程一样</p>
-<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区存储的是被JVM加载过的类信息、常量、静态变量、及时编译器编译过的代码和数据</p>
-<p>方法区数据是线程共享</p>
-<blockquote>
-<p>方法区是JVM规范，永久代和元空间是方法区的具体实现</p>
-</blockquote>
-<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆存放的数据是Java程序运行时产生的对象实例</p>
-<p>JVM规范定义的堆的异常有：OutOfMemoryError</p>
-<p>堆数据是线程共享的</p>
+<img src="https://github.com/hezd/Image-Folders/blob/master/Blog/%E5%88%86%E4%BB%A3%E7%AD%96%E7%95%A5.png?raw=true" style="zoom:90%;" />
+
+<h3 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h3><p>新建的对象优先分配到新生代</p>
+<p>新生代对象会优先分配到Eden区，当Eden区满了以后，会将存活的对象复制到s0区并清空Eden区，当Eden区第二次满的时候，会将Eden区和s0去的存活对象复制到s1区并清空Eden区和s0区，多次执行上述操作后（默认15次）还有存活的对象会进入老年代。</p>
+<p>从新生代的回收过程可以看到使用的是复制清除算法</p>
+<h3 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h3><p>新生代多次回收后还存活的对象会进入老年代，新生代分配大对象时如果内存不足也会进入老年代</p>
 
     </div>
 
@@ -308,13 +314,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/02/10/%E4%B8%89%E6%96%B9%E5%BA%93%E8%BF%81%E7%A7%BB%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" rel="prev" title="三方库迁移至私有仓库">
-      <i class="fa fa-chevron-left"></i> 三方库迁移至私有仓库
+    <a href="/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" rel="prev" title="JVM内存区域">
+      <i class="fa fa-chevron-left"></i> JVM内存区域
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/" rel="next" title="Gc回收机制与分代回收策略">
-      Gc回收机制与分代回收策略 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -374,7 +377,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.</span> <span class="nav-text">JVM内存区域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">1.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">1.4.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">1.5.</span> <span class="nav-text">堆</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GC%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">GC回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gc-Root"><span class="nav-number">1.2.</span> <span class="nav-text">Gc Root</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E5%9B%9E%E6%94%B6"><span class="nav-number">1.3.</span> <span class="nav-text">何时回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.1.</span> <span class="nav-text">标记清除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.2.</span> <span class="nav-text">复制清除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.4.3.</span> <span class="nav-text">标记压缩</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5"><span class="nav-number">2.</span> <span class="nav-text">分代回收策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3"><span class="nav-number">2.1.</span> <span class="nav-text">新生代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%81%E5%B9%B4%E4%BB%A3"><span class="nav-number">2.2.</span> <span class="nav-text">老年代</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -533,7 +536,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'hezd.github.io',
       owner       : 'hezd',
       admin       : ['hezd'],
-      id          : '6970b667081b0549777fd73fd4e77285',
+      id          : 'ce995a2d6717f2eda088a1f920ae931c',
         language: 'zh-CN',
       distractionFreeMode: true
     });
