@@ -5,3 +5,4 @@
 *.db
 *.json
 .DS_Store
+/themes/.DS_Store
