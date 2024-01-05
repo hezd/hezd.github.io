@@ -189,6 +189,180 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/05/APT%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/05/APT%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">APT简介及应用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-05 18:37:37 / 修改时间：18:40:04" itemprop="dateCreated datePublished" datetime="2024-01-05T18:37:37+08:00">2024-01-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/Android/APT/" itemprop="url" rel="index"><span itemprop="name">APT</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="什么是APT"><a href="#什么是APT" class="headerlink" title="什么是APT"></a>什么是APT</h2><p>APT是annotation processing Tools的缩写意思是注解处理工具，常用于生成模版代码来简化代码</p>
+<h2 id="如何自定义注解处理器"><a href="#如何自定义注解处理器" class="headerlink" title="如何自定义注解处理器"></a>如何自定义注解处理器</h2><p>下面参考butterknife的BindView来自定义注解处理器，butterknife是jakewharton大神开发的用于android简化view初始化的库，原理是使用apt来解析注解生成辅助类自动绑定view。</p>
+<h3 id="工程创建"><a href="#工程创建" class="headerlink" title="工程创建"></a>工程创建</h3><p>通常加上主工程需要创建4个模块</p>
+<p>app：主工程</p>
+<p>bindview-annotations:需要被注解处理器处理的注解聚合模块</p>
+<p>bindview-compiler:注解处理器模块</p>
+<p>bindview：为上层应用提供api的模块,例如ViewBinder.bind(this)</p>
+<p>工程目录如下</p>
+<img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95.jpg?raw=true"  />
+
+
+
+<p><strong>工程模块创建完以后接下来做什么，重新回归我们的目的是什么，我现在要做的是实现一个view自动绑定的功能，消除findviewById模版代码，实现原理是声明绑定注解通过注解处理器获取注解以及绑定的viewId生成view绑定辅助类，辅助类中包含view绑定逻辑。在需要绑定的Actiivty种调用辅助类的绑定方法进行view自动绑定。下面就需要将原理变为代码实现</strong></p>
+<h3 id="声明注解"><a href="#声明注解" class="headerlink" title="声明注解"></a>声明注解</h3><p>在当前工程中创建一个java or kotlin library，声明需要注解处理器处理的注解，包括注解使用的目标类型这里是字段Field，以及注解保留策略这里的场景需要字节码文件中保留，可以在编译时获取</p>
+<img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/%E5%A3%B0%E6%98%8E%E6%B3%A8%E8%A7%A3.jpg?raw=true"  />
+
+
+
+<h3 id="声明注解处理器"><a href="#声明注解处理器" class="headerlink" title="声明注解处理器"></a>声明注解处理器</h3><p>新建一个java or kotlin library命名为bindview-compiler并创建自定义注解处理器BindViewProcesor</p>
+<p><img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/%E5%A3%B0%E6%98%8E%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86%E5%99%A8.jpg?raw=true"></p>
+<p>根据前面<a href="#%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA">工程创建</a>部分最后面原理部分介绍，接下来需要在注解处理器中编写注解处理器逻辑</p>
+<ol>
+<li><p>配置注解处理器支持的java源代码版本</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> SourceVersion <span class="title function_">getSupportedSourceVersion</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> processingEnvironment.getSourceVersion();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>配置可处理的注解集合</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Set&lt;String&gt; <span class="title function_">getSupportedAnnotationTypes</span><span class="params">()</span> &#123;</span><br><span class="line">    HashSet&lt;String&gt; supportAnnotationTypes = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">    supportAnnotationTypes.add(BindView.class.getCanonicalName());</span><br><span class="line">    <span class="keyword">return</span> supportAnnotationTypes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>初始化工具类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> processingEnv 提供了一些工具集合</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(ProcessingEnvironment processingEnv)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.init(processingEnv);</span><br><span class="line">    <span class="built_in">this</span>.processingEnvironment = processingEnv;</span><br><span class="line">    filer = processingEnv.getFiler();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> &#123;</span><br><span class="line">    environment = roundEnvironment;</span><br><span class="line">    <span class="type">Messager</span> <span class="variable">messager</span> <span class="operator">=</span> processingEnvironment.getMessager();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要获取的工具类有：</p>
+<blockquote>
+<p>ProcessingEnvironment：提供了一些工具集合，这里用于获取日志工具，注解处理器支持的java源代码版本以及文件生成器</p>
+<p>RoundEnvironment：用于查询支持注解处理器处理的注解</p>
+</blockquote>
+</li>
+<li><p>编写注解处理器逻辑</p>
+<p>由于注解处理器需要引用我们声明的自定义注解，因此注解处理器模块要依赖注解模块，在注解处理器的build.gradle.kts文件中添加依赖关系</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">dependencies&#123;</span><br><span class="line">    implementation(project(<span class="string">&quot;:bindview-annotations&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按以下步骤实现注解处理器逻辑（在process方法中）</p>
+<ul>
+<li><p>定义注解处理器</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BindViewProcessor</span> <span class="keyword">extends</span> <span class="title class_">AbstractProcessor</span> &#123;</span><br><span class="line">    RoundEnvironment environment;</span><br><span class="line">    ProcessingEnvironment processingEnvironment;</span><br><span class="line">    <span class="keyword">private</span> Filer filer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *	注解处理器初始化</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> processingEnv 提供了一些工具集合</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(ProcessingEnvironment processingEnv)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.init(processingEnv);</span><br><span class="line">        <span class="built_in">this</span>.processingEnvironment = processingEnv;</span><br><span class="line">        filer = processingEnv.getFiler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> &#123;</span><br><span class="line">    	<span class="comment">// 在这里编写注解处理器逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>注册注解处理器</p>
+<p>注解处理器发挥作用还需要能够被编译器能够检测到，需要注册注解处理器</p>
+<p>在bindview-compiler模块的src/main/resources目录下创建META-INF/services目录并在这个目录下创建javax.annotation.processing.Processor文件，在文件中声明注解处理器完全限定名称（全路径名）</p>
+<p><img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/%E6%B3%A8%E5%86%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86%E5%99%A8.jpg?raw=true"></p>
+</li>
+<li><p>扫描所有的添加了BindView注解的Element</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Set&lt;? <span class="keyword">extends</span> <span class="title class_">Element</span>&gt; elementsAnnotated = roundEnvironment.getElementsAnnotatedWith(BindView.class);</span><br></pre></td></tr></table></figure></li>
+<li><p>按照Activity进行分组</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashMap&lt;String, List&lt;VariableElement&gt;&gt; elementMap =  <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (Element element : elementsAnnotated) &#123;</span><br><span class="line">    <span class="keyword">if</span> (element.getKind() == ElementKind.FIELD) &#123;</span><br><span class="line">        messager.printMessage(Diagnostic.Kind.NOTE, <span class="string">&quot;element:&quot;</span> + element);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 因为BindView是添加在字段上面的所以这里可以强转</span></span><br><span class="line">    <span class="type">VariableElement</span> <span class="variable">variableElement</span> <span class="operator">=</span> (VariableElement)element;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取注解字段外层结构最接近的Element其实也就是Activity类型的Element强转为TypeElement</span></span><br><span class="line">    <span class="comment">// 目的是获取Activity的全路径名称</span></span><br><span class="line">    <span class="type">TypeElement</span> <span class="variable">enclosingElement</span> <span class="operator">=</span> (TypeElement) variableElement.getEnclosingElement();</span><br><span class="line">    <span class="type">String</span> <span class="variable">activityName</span> <span class="operator">=</span> enclosingElement.getQualifiedName().toString();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制台打印日志</span></span><br><span class="line">    messager.printMessage(Diagnostic.Kind.NOTE,<span class="string">&quot;activityName:&quot;</span>+activityName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按照Activity进行分组</span></span><br><span class="line">    List&lt;VariableElement&gt; elements = elementMap.get(activityName);</span><br><span class="line">    <span class="keyword">if</span>(elements == <span class="literal">null</span>)&#123;</span><br><span class="line">        elements = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        elementMap.put(activityName,elements);</span><br><span class="line">    &#125;</span><br><span class="line">    elements.add(variableElement);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>生成辅助类</p>
+<ol>
+<li><p>借助Filer按照指定规则生成java源代码类文件，我们现在要生产view绑定辅助类比如MainActivityBinding，代码逻辑如下</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 生成xxxBinding辅助类代码</span></span><br><span class="line"><span class="comment">// 生成规则是Activity名称为前缀拼接Binding后缀生成辅助类</span></span><br><span class="line"><span class="comment">// 辅助类中生成绑定view的代码</span></span><br><span class="line"><span class="keyword">for</span>(Map.Entry&lt;String,List&lt;VariableElement&gt;&gt; entry:elementMap.entrySet())&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">activityName</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">    List&lt;VariableElement&gt; variableList = entry.getValue();</span><br><span class="line">    <span class="type">TypeElement</span> <span class="variable">activityElement</span> <span class="operator">=</span> (TypeElement) variableList.get(<span class="number">0</span>).getEnclosingElement();</span><br><span class="line">    <span class="type">String</span> <span class="variable">packageName</span> <span class="operator">=</span> processingEnv.getElementUtils().getPackageOf(activityElement).toString();</span><br><span class="line">    messager.printMessage(Diagnostic.Kind.NOTE,<span class="string">&quot;packageName:&quot;</span>+packageName);</span><br><span class="line">    messager.printMessage(Diagnostic.Kind.NOTE,<span class="string">&quot;activityName:&quot;</span>+activityName);</span><br><span class="line">    <span class="type">String</span> <span class="variable">simpleName</span> <span class="operator">=</span> activityElement.getSimpleName().toString();</span><br><span class="line">    <span class="type">String</span> <span class="variable">className</span> <span class="operator">=</span> simpleName+ConstantValues.SUFFIX_BINDING_CLASS;</span><br><span class="line">    messager.printMessage(Diagnostic.Kind.NOTE,<span class="string">&quot;binding class:&quot;</span>+className);</span><br><span class="line">    <span class="type">Writer</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">JavaFileObject</span> <span class="variable">javaFileObject</span> <span class="operator">=</span> filer.createSourceFile(className);</span><br><span class="line">        writer = javaFileObject.openWriter();</span><br><span class="line">        <span class="type">StringBuffer</span> <span class="variable">stringBuffer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">        stringBuffer.append(<span class="string">&quot;package &quot;</span>+packageName+<span class="string">&quot;;\n&quot;</span>);</span><br><span class="line">        stringBuffer.append(<span class="string">&quot;import com.hezd.bindview.IBinder;\n&quot;</span>);</span><br><span class="line">        stringBuffer.append(<span class="string">&quot;public class &quot;</span>+className+<span class="string">&quot; implements IBinder&lt;&quot;</span>+activityName+<span class="string">&quot;&gt;&#123;\n&quot;</span>);</span><br><span class="line">        stringBuffer.append(<span class="string">&quot;\tpublic void bind(&quot;</span>+activityName+<span class="string">&quot; target) &#123;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(VariableElement variableElement:variableList)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">variableName</span> <span class="operator">=</span> variableElement.getSimpleName().toString();</span><br><span class="line">            <span class="type">int</span> <span class="variable">resourceId</span> <span class="operator">=</span> variableElement.getAnnotation(BindView.class).value();</span><br><span class="line">            stringBuffer.append(<span class="string">&quot;\t\ttarget.&quot;</span>+variableName+<span class="string">&quot;=target.findViewById(&quot;</span>+resourceId+<span class="string">&quot;);\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        stringBuffer.append(<span class="string">&quot;\t&#125;\n&quot;</span>);</span><br><span class="line">        stringBuffer.append(<span class="string">&quot;&#125;\n&quot;</span>);</span><br><span class="line">        writer.write(stringBuffer.toString());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(writer!=<span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                writer.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里为了简化反射调用让辅助类实现IBinder接口这样只需要一次反射拿到IBinder实例调用bind方法即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">IBinder</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">bind</span><span class="params">(T target)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="提供外部调用接口的SDK"><a href="#提供外部调用接口的SDK" class="headerlink" title="提供外部调用接口的SDK"></a>提供外部调用接口的SDK</h3><p>生成辅助类后需要让上层应用调用辅助类对外接口，例如这里需要让app调用到MainActivityBinding类中的bind方法进行view的绑定，还需要创建一个提供对外接口调用的模块</p>
+<p>这里创建一个andorid library命名为bindview</p>
+<p>因为用到bindview-compiler模块中的常量类，所以需要bindview模块需要建立依赖关系,另外还需要对外提供注解BindView访问需要添加bindview-annotations的传递依赖</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		implementation(project(<span class="string">&quot;:bindview-compiler&quot;</span>))</span><br><span class="line">  	api(project(<span class="string">&quot;:bindview-annotations&quot;</span>))</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当前模块提供辅助类访问对象ViewBinder</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ViewBinder</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">bind</span><span class="params">(Object target)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">targetName</span> <span class="operator">=</span> target.getClass().getCanonicalName();</span><br><span class="line">        <span class="type">String</span> <span class="variable">className</span> <span class="operator">=</span> targetName+ ConstantValues.SUFFIX_BINDING_CLASS;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">Class</span> <span class="variable">bindgClass</span> <span class="operator">=</span> Class.forName(className);</span><br><span class="line">            <span class="keyword">if</span>(IBinder.class.isAssignableFrom(bindgClass))&#123;</span><br><span class="line">                <span class="type">IBinder</span> <span class="variable">binder</span> <span class="operator">=</span> (IBinder)bindgClass.newInstance();</span><br><span class="line">                binder.bind(target);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/sdk%E6%A8%A1%E5%9D%97.jpg?raw=true"></p>
+<h2 id="使用注解处理器"><a href="#使用注解处理器" class="headerlink" title="使用注解处理器"></a>使用注解处理器</h2><ol>
+<li><p>引入注解处理器</p>
+<p>在app主工程模块引入注解处理器</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">    annotationProcessor(project(<span class="string">&quot;:bindview-compiler&quot;</span>))</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>引入sdk模块</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">    implementation(project(<span class="string">&quot;:bindview&quot;</span>))</span><br><span class="line">    annotationProcessor(project(<span class="string">&quot;:bindview-compiler&quot;</span>))</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>3.在Activity中view字段添加BindView注解</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BindView(R.id.textview)</span></span><br><span class="line">    <span class="keyword">public</span> TextView textView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        ViewBinder.bind(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">        getWindow().getDecorView().postDelayed(() -&gt; &#123;</span><br><span class="line">            textView.setText(<span class="string">&quot;bind success&quot;</span>);</span><br><span class="line">        &#125;, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用BindView注解view字段，然后调用ViewBinder.bind(this)实现了view自动绑定，消除了findviewbyid模版代码</p>
+</blockquote>
+<p>4.clean然后rebuild后可以在build目录中找到注解处理器生成的MainActivityBinding</p>
+<p><img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/MainBinding%E8%BE%85%E5%8A%A9%E7%B1%BB.jpg?raw=true"></p>
+<p>5.运行后可看到页面先显示默认Helloworld文本，两秒后被修改为bind success</p>
+<img src="https://github.com/hezd/Image-Folders/blob/master/codelab-android-apt/%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.jpg?raw=true" style="zoom:50%;" />
+
+
+
+
+
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这篇文章介绍了什么是注解处理器，以及用注解处理器简单实现view自动绑定，另外还有一些可以优化的点比如可以使用google的auto-service免除手动注册注解处理器，使用javapoet库简化java代码生成，从而提高开发效率。</p>
+<p>代码仓库地址：<a target="_blank" rel="noopener" href="https://github.com/hezd/codelab-android-apt">codelab-android-apt</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/15/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1183,86 +1357,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/16/github-io%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="hezd">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hezd的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/16/github-io%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/" class="post-title-link" itemprop="url">github.io无法打开</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-16 12:53:06" itemprop="dateCreated datePublished" datetime="2022-03-16T12:53:06+08:00">2022-03-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-29 10:00:40" itemprop="dateModified" datetime="2022-07-29T10:00:40+08:00">2022-07-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h5 id="1-github-io无法打开"><a href="#1-github-io无法打开" class="headerlink" title="1.github.io无法打开"></a>1.github.io无法打开</h5><p>今天发现自己的博客hezd.github.io无法打开，打开VPN代理必须设置全局代理才能打开，这种体验十分槽糕，为了解决这个问题，查阅了很多资料最终解决。</p>
-<h5 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h5><p>控制面板&gt;网络连接和Internet&gt;更改适配器设置,然后找到自己连接无线网络，右键属性&gt;Internet协议版本4,双击打开设置DNS服务器</p>
-<p>有两种方法</p>
-<p>1.只设置首选DNS服务器为114.114.114.114</p>
-<p>2.设置首选DNS服务器为223.5.5.5，备用DNS服务器223.6.6.6</p>
-<p>我是用第二种方法测试成功打开我的博客<a target="_blank" rel="noopener" href="https://hezd.github.io/">https://hezd.github.io/</a></p>
-<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000039848385">https://segmentfault.com/a/1190000039848385</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1334,20 +1428,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1382,7 +1476,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
