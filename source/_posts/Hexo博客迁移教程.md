@@ -1,12 +1,10 @@
 ---
-title: Hexo博客迁移教程(转载)
-date: 2022-02-22 10:50:03
-tags: 
+title: Hexo博客迁移教程
+date: 2026-04-09 00:38:16
+tags:
 - Hexo
-- Architecture
-categories: 
-- Hexo
-#description: " "
+categories:
+- Hex
 ---
 
 # Hexo博客迁移教程(转载)
