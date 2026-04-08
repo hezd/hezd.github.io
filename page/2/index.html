@@ -189,215 +189,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/27/%E6%B3%9B%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="hezd">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hezd的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/27/%E6%B3%9B%E5%9E%8B/" class="post-title-link" itemprop="url">泛型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-27 17:25:12" itemprop="dateCreated datePublished" datetime="2022-07-27T17:25:12+08:00">2022-07-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/%E6%B3%9B%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">泛型</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="什么是泛型？"><a href="#什么是泛型？" class="headerlink" title="什么是泛型？"></a>什么是泛型？</h4><p>泛型是编译器的类型安全检查机制，让更多类型错误暴露在编译期，提高程序稳定性。</p>
-<p>最常见的应用场景是集合</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> <span class="variable">list</span> <span class="operator">=</span> ArrayList();</span><br><span class="line">list.add(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">list.add(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
-
-<p>如果希望list只接受字符串类型，使用泛型很容易做到这一点</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strList = ArrayList&lt;&gt;();</span><br><span class="line">strList.add(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">strList.add(<span class="number">1</span>);<span class="comment">//编译失败，只能是String类型</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="泛型类型"><a href="#泛型类型" class="headerlink" title="泛型类型"></a>泛型类型</h4><p>泛型类型是从类型上参数化的类或接口.</p>
-<p>泛型类型定义</p>
-<p>class name&lt;T1,T2,…Tn&gt;{}</p>
-<p>举例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Box</span>&lt;T&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>名词解释：</p>
-<blockquote>
-<p>类型形参：T就是泛型类Box的类型形参</p>
-<p>类型实参：泛型调用时替换T的值，例如Box<String> strBox ;String就是类型实参</p>
-</blockquote>
-<h4 id="调用和实例化"><a href="#调用和实例化" class="headerlink" title="调用和实例化"></a>调用和实例化</h4><h5 id="泛型类型调用"><a href="#泛型类型调用" class="headerlink" title="泛型类型调用"></a>泛型类型调用</h5><p>要在代码中引用泛型类型要使用泛型类型调用，将泛型形参T替换为具体的值</p>
-<p>例如上面声明的泛型类Box的类型调用如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Box&lt;String&gt; strBox;</span><br></pre></td></tr></table></figure>
-
-<p>泛型类型调用也叫作参数化类型parameterized type</p>
-<h5 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h5><p>泛型类型实例化与普通类类似，使用new关键字，在类名和括号之间使用尖括号标明泛型类型</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Box&lt;String&gt; strBox = <span class="keyword">new</span> <span class="title class_">Box</span>&lt;&gt;();<span class="comment">// 由于类型推断可以省略&lt;&gt;里面的泛型类型</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h4><p>泛型方法是指在声明方法时引入泛型类型</p>
-<p>例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt;<span class="keyword">void</span> <span class="title function_">setValue</span><span class="params">(T t)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在返回值前声明泛型类型，返回或参数使用泛型类型</p>
-<h4 id="有界类型形参"><a href="#有界类型形参" class="headerlink" title="有界类型形参"></a>有界类型形参</h4><p>有时我们希望对泛型类型形参边界进行限定，使用extends关键字限定上边界</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> Box&lt;T <span class="keyword">extends</span> <span class="title class_">Number</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果我们希望Box泛型类型实参既可以是Integer又可以是Double可以使用上面方法进行限定</p>
-<blockquote>
-<p>注意：泛型类型边界只能限定上边界，无限定下边界方法。不可与通配符的限定下边界混淆</p>
-</blockquote>
-<h4 id="泛型类型继承"><a href="#泛型类型继承" class="headerlink" title="泛型类型继承"></a>泛型类型继承</h4><p>泛型类型实参也存在继承关系，只要类型兼容可以将一个类型分配给另一种类型</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Number&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">1</span>));</span><br><span class="line">list.add(<span class="keyword">new</span> <span class="title class_">Double</span>(<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
-
-<p>但是请注意下面代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setList</span><span class="params">(List&lt;Number&gt; list)</span>&#123;&#125;</span><br><span class="line">setList(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;());<span class="comment">//compile error</span></span><br></pre></td></tr></table></figure>
-
-<p>对于fun方法参数如果传递ArrayList<Integer>会编译报错,虽然Integer是Number的子类型，但是ArrayList<Integer>并不是List<Number>的子类型,要解决这个问题可以使用下面讲到的通配符来解决</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setList</span><span class="params">(List&lt;? extends Number&gt; list)</span>&#123;&#125;</span><br><span class="line">setList(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;())</span><br></pre></td></tr></table></figure>
-
-<h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><p>在泛型代码中使用问号(?)表示未知类型，泛型类型调用时作为类型实参。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ArrayList的addAll方法使用通配符</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意：因为通配符作为泛型类型调用的实参，所以不能用于泛型类或接口定义（泛型类定义中的类型变量是形参）</p>
-<h5 id="上界通配符"><a href="#上界通配符" class="headerlink" title="上界通配符"></a>上界通配符</h5><p>上界通配符? extends限定上边界，限定类型是指定类型或它的子类型</p>
-<p>比如下面方法参数是一个集合既想接收Integer类型又想接收Double类型可以使用上界通配符</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addNumbers</span><span class="params">(List&lt;? extends Number&gt; list)</span>&#123;&#125;</span><br><span class="line">addNumbers(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;());</span><br><span class="line">addNumbers(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Double&gt;());</span><br></pre></td></tr></table></figure>
-
-<p>注意以下代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;? <span class="keyword">extends</span> <span class="title class_">Number</span>&gt; numbers = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">numbers.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">1</span>));<span class="comment">//compile error</span></span><br><span class="line">numbers.add(<span class="keyword">new</span> <span class="title class_">Double</span>(<span class="number">1</span>));<span class="comment">// compile error</span></span><br></pre></td></tr></table></figure>
-
-<p>使用上界通配符在对集合进行写操作时编译报错，这是因为虽然虽然限定了类型为Number及子类，但是实际类型可能是Integer也可能是Double编译器无法判断唯一性，所以不允许进行写操作。</p>
-<h5 id="无界通配符"><a href="#无界通配符" class="headerlink" title="无界通配符"></a>无界通配符</h5><p>无界通配符使用?表示未知类型来指定泛型类型实参</p>
-<p>无界通配符应用场景：</p>
-<blockquote>
-<p>① 使用Object类提供的功能实现的方法</p>
-<p>② 泛型代码不依赖于泛型形参</p>
-<p>​	例如Class&lt;?&gt;，因为Class<T>中的大多数方法不依赖于T</p>
-</blockquote>
-<p>例如以下方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">println</span><span class="params">(List&lt;Object&gt; list)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(Object item : list)&#123;</span><br><span class="line">		System.out.println(item);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果想要打印List<Integer>或List<Double>是不可以的，这时候可以使用无界通配符打印所有类型的List</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">println</span><span class="params">(List&lt;?&gt; list)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(Object item:list)&#123;</span><br><span class="line">		System.out.println(item);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="下界通配符"><a href="#下界通配符" class="headerlink" title="下界通配符"></a>下界通配符</h5><p>使用? super来限定下边界，限定类型为指定类型或它的父类型</p>
-<p>例如以下方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addNumbers</span><span class="params">(List&lt;? <span class="built_in">super</span> Integer&gt; list)</span>&#123;&#125;</span><br><span class="line">addNumbers(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;());</span><br><span class="line">addNumbers(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Number&gt;());</span><br></pre></td></tr></table></figure>
-
-<p>使用? super Integer限定接收的类型为Integer或它的父类型</p>
-<p>注意以下代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;? <span class="built_in">super</span> Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="type">Number</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">list.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">1</span>));</span><br><span class="line">list.add(num);<span class="comment">//compile error</span></span><br><span class="line">list.add(<span class="keyword">new</span> <span class="title class_">Object</span>());<span class="comment">//compile error</span></span><br></pre></td></tr></table></figure>
-
-<p>向限定下界为Integer的list中添加Number类型时编译报错，因为虽然限定了下界为Integer或它的父类，但是这个类型可能是Number或者Object编译器无法判断，而类型又必须唯一，为了类型安全只能写入Integer或它的子类型。</p>
-<p>如果想要既可以写入Integer又可以写入Number，限定下边界需要改为Number</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;? <span class="built_in">super</span> Number&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="type">Number</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">list.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">1</span>));</span><br><span class="line">list.add(num);</span><br></pre></td></tr></table></figure>
-
-<p>在来看以下代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;? <span class="built_in">super</span> Number&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">1</span>));</span><br><span class="line"><span class="type">Number</span> <span class="variable">item</span> <span class="operator">=</span> list.get(<span class="number">0</span>);<span class="comment">//compile error</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">item</span> <span class="operator">=</span> list.get(<span class="number">0</span>);<span class="comment">//compile success</span></span><br></pre></td></tr></table></figure>
-
-<p>使用下界通配符后list集合获取元素只能用Object接收，这是因为元素了类型可能是符合限定条件的所有类型，可能是Integer也可能是Double，编译器无法确定所以不能用Number来接收。相当于失去了读的属性</p>
-<p>可以看出限定上边界以后泛型类型相当于只有读权限，限定下边界相当于只写权限，关于通配符使用原则可以看下面通配符使用指南。</p>
-<h5 id="通配符使用指南"><a href="#通配符使用指南" class="headerlink" title="通配符使用指南"></a>通配符使用指南</h5><p>我们在通配符使用过程中可能会有困惑，什么时候使用上界通配符，什么时候使用下界通配符，官方建议是根据”in”和”out”原则，也有人叫作生产消费者原则</p>
-<p>例如</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">copy(src,dest);<span class="comment">//src变量作为&quot;in&quot;变量，dest作为&quot;out&quot;变量</span></span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>“in”变量使用上界通配符，使用extends关键字（生产者）</p>
-<p>“out”变量使用下界通配符，使用super关键字（消费者）</p>
-<p>可以使用Object的方法来访问”in”变量使用无界通配符</p>
-<p>变量既要读数据又要写数据时不要使用通配符</p>
-</blockquote>
-<h4 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h4><p>泛型类型是jdk1.5引入的，为了与以前版本兼容，编译器在编译阶段会将泛型类型擦除，同时对泛型类型做类型转换。</p>
-<blockquote>
-<p>对于无界类型形参替换为Object</p>
-<p>对于有界类型形参替换为边界类型</p>
-</blockquote>
-<p>类型擦除示例</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 无界类型</span></span><br><span class="line"><span class="comment">// 擦除前</span></span><br><span class="line">Class Box&lt;T&gt;&#123;</span><br><span class="line">    <span class="keyword">private</span> T t;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setValue</span><span class="params">(T t)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.t = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">getValue</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 擦除后</span></span><br><span class="line">Class Box &#123;</span><br><span class="line">    <span class="keyword">private</span> Object t;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setValue</span><span class="params">(Object t)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.t = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getValue</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 有界类型</span></span><br><span class="line"><span class="comment">// 擦除前</span></span><br><span class="line">Class Box&lt;T <span class="keyword">extends</span> <span class="title class_">Integer</span>&gt;&#123;</span><br><span class="line">    <span class="keyword">private</span> T t;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setValue</span><span class="params">(T t)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.t = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">getValue</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 擦除后</span></span><br><span class="line">Class Box&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer t;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setValue</span><span class="params">(Integer t)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.t = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">getValue</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>来看一到面试题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list1 = new ArrayList&lt;&gt;():</span><br><span class="line">List&lt;Integer&gt; list2 = new ArrayList&lt;&gt;():</span><br><span class="line">System.out.print(list1.getClass()==list2.getClass());</span><br></pre></td></tr></table></figure>
-
-<p>最终输出结果是true，因为两个list在类型擦除后Class类型都是List.class</p>
-<h4 id="泛型的限制"><a href="#泛型的限制" class="headerlink" title="泛型的限制"></a>泛型的限制</h4><h5 id="无法用基本类型实例化泛型类型"><a href="#无法用基本类型实例化泛型类型" class="headerlink" title="无法用基本类型实例化泛型类型"></a>无法用基本类型实例化泛型类型</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;<span class="type">int</span>&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;<span class="type">int</span>&gt;();<span class="comment">//compile error</span></span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;();<span class="comment">//compile success</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="无法创建类型形参的实例"><a href="#无法创建类型形参的实例" class="headerlink" title="无法创建类型形参的实例"></a>无法创建类型形参的实例</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;E&gt; append(List&lt;E&gt; list)&#123;</span><br><span class="line">	<span class="type">E</span> <span class="variable">e</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">E</span>();<span class="comment">//compile error</span></span><br><span class="line">	list.add(e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解决办法是提供Class通过反射创建</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;E&gt;append(List&lt;E&gt; list,Class&lt;E&gt; cls)&#123;</span><br><span class="line">    <span class="type">E</span> <span class="variable">e</span> <span class="operator">=</span> cls.newInstance();</span><br><span class="line">    list.add(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="无法声明为类型形参的静态字段"><a href="#无法声明为类型形参的静态字段" class="headerlink" title="无法声明为类型形参的静态字段"></a>无法声明为类型形参的静态字段</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Box</span>&lt;T&gt;&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> T t;<span class="comment">//compile error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>因为静态字段是对象共享的如果允许这样操作，每个对象可以在创建实例时可以指定不同类型，但是它不能同时是多种类型</p>
-<h5 id="不能使用参数化类型进行类型转化或instanceof"><a href="#不能使用参数化类型进行类型转化或instanceof" class="headerlink" title="不能使用参数化类型进行类型转化或instanceof"></a>不能使用参数化类型进行类型转化或instanceof</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">check</span><span class="params">(List&lt;E&gt; list)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(list <span class="keyword">instanceof</span> ArrayList&lt;Integer&gt;)<span class="comment">//compile error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>因为泛型类型会被擦除</p>
-<h5 id="无法重载类型参数擦除后原始类型相同的方法"><a href="#无法重载类型参数擦除后原始类型相同的方法" class="headerlink" title="无法重载类型参数擦除后原始类型相同的方法"></a>无法重载类型参数擦除后原始类型相同的方法</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">(List&lt;String&gt; strList)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">(List&lt;Integer&gt; intList)</span>;</span><br></pre></td></tr></table></figure>
-
-<p>类型擦除后原始类型都为Object因此无法重载</p>
-<h5 id="无法创建参数化类型的数组"><a href="#无法创建参数化类型的数组" class="headerlink" title="无法创建参数化类型的数组"></a>无法创建参数化类型的数组</h5><h5 id="无法创建，捕获或抛出参数化类型的对象"><a href="#无法创建，捕获或抛出参数化类型的对象" class="headerlink" title="无法创建，捕获或抛出参数化类型的对象"></a>无法创建，捕获或抛出参数化类型的对象</h5><p>参考</p>
-<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/tutorial/java/generics/index.html">https://docs.oracle.com/javase/tutorial/java/generics/index.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://pingfangx.github.io/java-tutorials/java/generics/types.html">https://pingfangx.github.io/java-tutorials/java/generics/types.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/briblue/article/details/76736356">https://blog.csdn.net/briblue/article/details/76736356</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/16/github-io%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -693,6 +484,138 @@
 <li><a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/guide" title="Guide to app architecture.">Guide to app architecture.</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/laibinzhi/GoogleArchitecture" title="Google Architecture Introduction">Google Architecture Introduction</a></li>
 </ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/22/Hexo%20%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/22/Hexo%20%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">Hexo博客迁移教程(转载)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-22 10:50:03" itemprop="dateCreated datePublished" datetime="2022-02-22T10:50:03+08:00">2022-02-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-09 00:28:00" itemprop="dateModified" datetime="2026-04-09T00:28:00+08:00">2026-04-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">Android架构模式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Hexo博客迁移教程-转载"><a href="#Hexo博客迁移教程-转载" class="headerlink" title="Hexo博客迁移教程(转载)"></a>Hexo博客迁移教程(转载)</h1><p>原文链接: <a target="_blank" rel="noopener" href="https://wokron.github.io/posts/hexo-blog-migration/">https://wokron.github.io/posts/hexo-blog-migration/</a></p>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>因为用了新的笔记本，为了继续更新自己的博客，我决定把原来那台笔记本上的博客资源迁移过来。不过呢，当然不能用u盘拷贝这种比较low的方法，最好还是把资源放到 github 上，这样不仅方便现在的迁移，更能防止数据丢失。</p>
+<h2 id="二、将博客资源推送到仓库"><a href="#二、将博客资源推送到仓库" class="headerlink" title="二、将博客资源推送到仓库"></a>二、将博客资源推送到仓库</h2><p>如果你使用 hexo 搭建了自己的博客，并且把博客放到了 github 上，那么很容易注意到使用 hexo 部署时并不是将本地的所有内容推送到了 github，实际推送的只是 .&#x2F;public 路径下的文件。而现在我们要做的就是将博客的所有资源推送到仓库，不仅是用于网页的部分。</p>
+<p>我们选择就在博客网站所在的仓库存储博客资源，为了做到这一点，首先要在本地克隆一个仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</span><br></pre></td></tr></table></figure>
+
+<p>随后我们新建一个分支用于存储博客资源。该分支与博客网站所使用的 master 分支无关，因此最好创建成一个“孤儿”分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout --orphan &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>切换到该分支后，原本随着克隆拉取到本地的文件现在依旧存在，需要将这些文件删除</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
+
+<p>接着将位于本地的博客资源复制到该文件夹下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp -r &lt;old_blog_dir&gt;/* .</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意，如果你使用了 next 等主题，并且是通过克隆仓库的方式下载的，那么此时应该把主题对应的项目路径下的 .git 文件夹删除。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># take next theme as example</span><br><span class="line">rm -r ./themes/next/.git</span><br></pre></td></tr></table></figure>
+
+<p>以上的工作都完成后，将这些复制到仓库中的博客资源文件添加并提交</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;commit info&quot;</span><br></pre></td></tr></table></figure>
+
+<p>最后将本地分支推送到远程仓库的新分支中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin &lt;remote_branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、迁移博客"><a href="#三、迁移博客" class="headerlink" title="三、迁移博客"></a>三、迁移博客</h2><p>接下来要将博客迁移到另一台设备上。首先当然要下载 git 并配置用户名和邮箱</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt install git</span><br><span class="line">git config --global user.name &lt;username&gt;</span><br><span class="line">git config --global user.email &lt;email&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后克隆仓库并切换到博客资源所在的分支</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</span><br><span class="line">cd &lt;username&gt;.github.io</span><br><span class="line">git checkout -b &lt;branch_name&gt; origin/&lt;remote_branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接着下载 nodejs、npm 和 hexo</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt install nodejs</span><br><span class="line">sudo apt install npm</span><br><span class="line">sudo npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>最后下载项目中使用的其他包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、在新设备上生成网页以及部署"><a href="#四、在新设备上生成网页以及部署" class="headerlink" title="四、在新设备上生成网页以及部署"></a>四、在新设备上生成网页以及部署</h2><p>hexo 的命令不用多说，可以用 <code>hexo g</code> 生成网页，并使用 <code>hexo s</code> 命令在本地运行。</p>
+<p>最后使用 <code>hexo d</code> 将网页部署到 github 上。但是这时可能会出现如下的信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># omit...</span><br><span class="line">Username for &#x27;https://github.com&#x27;: &lt;username&gt;</span><br><span class="line">Password for &#x27;https://wokron@github.com&#x27;: &lt;password&gt;</span><br><span class="line">remote: Support for password authentication was removed on August 13, 2021.</span><br><span class="line">remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.</span><br><span class="line"># omit...</span><br></pre></td></tr></table></figure>
+
+<p>这时就需要增加授权。可以使用 ssh 生成密钥。输入如下命令后按三次回车。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &lt;email&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后查看 ~&#x2F;.ssh&#x2F;id_rsa.pub 中的明文密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>进入 github，找到 Settings - SSH and GPG keys - SSH keys - New SSH Key，将该密钥粘贴并保存。之后输入如下命令查看密钥是否设置成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>此时可能会输出如下内容，这时只要输入 yes 并回车即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The authenticity of host &#x27;[ssh.github.com]:443 ([20.205.243.160]:443)&#x27; can&#x27;t be established.</span><br><span class="line">ED25519 key fingerprint is &lt;fingerprint&gt;.</span><br><span class="line">This key is not known by any other names</span><br><span class="line">Are you sure you want to continue connecting (yes/no/[fingerprint])?</span><br></pre></td></tr></table></figure>
+
+<p>最终出现如下输出则表示成功</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PTY allocation request failed on channel 0</span><br><span class="line">Hi wokron! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line">Connection to ssh.github.com closed.</span><br></pre></td></tr></table></figure>
+
+<p>最后打开博客的配置文件 _config.yml，将其中部署部分改为如下形式，使用 ssh 链接进行部署</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>最后再次应用 <code>hexo d</code> 即可部署。</p>
 
       
     </div>
