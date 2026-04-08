@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hezd的博客">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hezd的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="hezd">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Hezd的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hezd的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Android Developer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/04/08/Hexo%20%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/04/08/Hexo%20%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-04-08 23:18:45 / 修改时间：23:47:21" itemprop="dateCreated datePublished" datetime="2026-04-08T23:18:45+08:00">2026-04-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Hexo博客迁移教程-转载"><a href="#Hexo博客迁移教程-转载" class="headerlink" title="Hexo博客迁移教程(转载)"></a>Hexo博客迁移教程(转载)</h1><p>原文链接: <a target="_blank" rel="noopener" href="https://wokron.github.io/posts/hexo-blog-migration/">https://wokron.github.io/posts/hexo-blog-migration/</a></p>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>因为用了新的笔记本，为了继续更新自己的博客，我决定把原来那台笔记本上的博客资源迁移过来。不过呢，当然不能用u盘拷贝这种比较low的方法，最好还是把资源放到 github 上，这样不仅方便现在的迁移，更能防止数据丢失。</p>
+<h2 id="二、将博客资源推送到仓库"><a href="#二、将博客资源推送到仓库" class="headerlink" title="二、将博客资源推送到仓库"></a>二、将博客资源推送到仓库</h2><p>如果你使用 hexo 搭建了自己的博客，并且把博客放到了 github 上，那么很容易注意到使用 hexo 部署时并不是将本地的所有内容推送到了 github，实际推送的只是 .&#x2F;public 路径下的文件。而现在我们要做的就是将博客的所有资源推送到仓库，不仅是用于网页的部分。</p>
+<p>我们选择就在博客网站所在的仓库存储博客资源，为了做到这一点，首先要在本地克隆一个仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</span><br></pre></td></tr></table></figure>
+
+<p>随后我们新建一个分支用于存储博客资源。该分支与博客网站所使用的 master 分支无关，因此最好创建成一个“孤儿”分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout --orphan &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>切换到该分支后，原本随着克隆拉取到本地的文件现在依旧存在，需要将这些文件删除</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
+
+<p>接着将位于本地的博客资源复制到该文件夹下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp -r &lt;old_blog_dir&gt;/* .</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意，如果你使用了 next 等主题，并且是通过克隆仓库的方式下载的，那么此时应该把主题对应的项目路径下的 .git 文件夹删除。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># take next theme as example</span><br><span class="line">rm -r ./themes/next/.git</span><br></pre></td></tr></table></figure>
+
+<p>以上的工作都完成后，将这些复制到仓库中的博客资源文件添加并提交</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;commit info&quot;</span><br></pre></td></tr></table></figure>
+
+<p>最后将本地分支推送到远程仓库的新分支中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin &lt;remote_branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、迁移博客"><a href="#三、迁移博客" class="headerlink" title="三、迁移博客"></a>三、迁移博客</h2><p>接下来要将博客迁移到另一台设备上。首先当然要下载 git 并配置用户名和邮箱</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt install git</span><br><span class="line">git config --global user.name &lt;username&gt;</span><br><span class="line">git config --global user.email &lt;email&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后克隆仓库并切换到博客资源所在的分支</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</span><br><span class="line">cd &lt;username&gt;.github.io</span><br><span class="line">git checkout -b &lt;branch_name&gt; origin/&lt;remote_branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接着下载 nodejs、npm 和 hexo</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt install nodejs</span><br><span class="line">sudo apt install npm</span><br><span class="line">sudo npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>最后下载项目中使用的其他包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、在新设备上生成网页以及部署"><a href="#四、在新设备上生成网页以及部署" class="headerlink" title="四、在新设备上生成网页以及部署"></a>四、在新设备上生成网页以及部署</h2><p>hexo 的命令不用多说，可以用 <code>hexo g</code> 生成网页，并使用 <code>hexo s</code> 命令在本地运行。</p>
+<p>最后使用 <code>hexo d</code> 将网页部署到 github 上。但是这时可能会出现如下的信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># omit...</span><br><span class="line">Username for &#x27;https://github.com&#x27;: &lt;username&gt;</span><br><span class="line">Password for &#x27;https://wokron@github.com&#x27;: &lt;password&gt;</span><br><span class="line">remote: Support for password authentication was removed on August 13, 2021.</span><br><span class="line">remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.</span><br><span class="line"># omit...</span><br></pre></td></tr></table></figure>
+
+<p>这时就需要增加授权。可以使用 ssh 生成密钥。输入如下命令后按三次回车。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &lt;email&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后查看 ~&#x2F;.ssh&#x2F;id_rsa.pub 中的明文密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>进入 github，找到 Settings - SSH and GPG keys - SSH keys - New SSH Key，将该密钥粘贴并保存。之后输入如下命令查看密钥是否设置成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>此时可能会输出如下内容，这时只要输入 yes 并回车即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The authenticity of host &#x27;[ssh.github.com]:443 ([20.205.243.160]:443)&#x27; can&#x27;t be established.</span><br><span class="line">ED25519 key fingerprint is &lt;fingerprint&gt;.</span><br><span class="line">This key is not known by any other names</span><br><span class="line">Are you sure you want to continue connecting (yes/no/[fingerprint])?</span><br></pre></td></tr></table></figure>
+
+<p>最终出现如下输出则表示成功</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PTY allocation request failed on channel 0</span><br><span class="line">Hi wokron! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line">Connection to ssh.github.com closed.</span><br></pre></td></tr></table></figure>
+
+<p>最后打开博客的配置文件 _config.yml，将其中部署部分改为如下形式，使用 ssh 链接进行部署</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>最后再次应用 <code>hexo d</code> 即可部署。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/22/Http%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/22/Http%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="post-title-link" itemprop="url">Http三次握手和四次挥手</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-22 17:47:58" itemprop="dateCreated datePublished" datetime="2023-11-22T17:47:58+08:00">2023-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Http三次握手和四次挥手"><a href="#Http三次握手和四次挥手" class="headerlink" title="Http三次握手和四次挥手"></a>Http三次握手和四次挥手</h3><p>了解Http的三次握手和四次挥手有助于对Http请求过程有更深刻的认识，同时也可以解决面试相关问题😁</p>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p>第一次握手：客户端想服务器发起请求连接的SYN报文，发送完毕后进入SYN_SENT状态</p>
+<p>第二次握手：服务器收到客户端请求后，向客户端发送SYN ACK报文，进入SYN_RCVD状态</p>
+<p>第三次握手：客户端收到服务器SYN ACK报文后，向服务器发送ACK报文，当服务器收到客户端ACK报文后客户端和服务器都会进入ESTABLISHED状态，TCP连接成功</p>
+<p>三次握手示意图</p>
+<p><img src="https://github.com/hezd/Image-Folders/blob/master/Blog/http_three_shake.png?raw=true"></p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p>当需要关闭http连接时需要经历四次挥手</p>
+<p>第一次挥手：客户端向服务器发送FIN报文，进入FIN_WAIT状态</p>
+<p>第二次挥手：服务器收到客户端FIN报文后向客户端发送ACK报文，进入CLOSE_WAIT状态</p>
+<p>第三次挥手：当服务器没有数据可发送准备好关闭连接后向客户端发送FIN报文，进入LAST_ACK状态</p>
+<p>第四次挥手：客户端收到服务端FIN报文后向服务端发送ACK报文进入TIME_WAIT状态，服务器收到客户端ACK报文后关闭连接，客户端在等待2MSL（最大报文生存时间）时间后也关闭连接</p>
+<p>四次挥手示意图</p>
+<p><img src="https://github.com/hezd/Image-Folders/blob/master/Blog/http_four_wave.png?raw=true"></p>
+<p>到这里三次挥手和四次握手已经讲解完了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/15/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/15/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" class="post-title-link" itemprop="url">动态代理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-15 18:17:29" itemprop="dateCreated datePublished" datetime="2023-11-15T18:17:29+08:00">2023-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">动态代理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="什么是动态代理？"><a href="#什么是动态代理？" class="headerlink" title="什么是动态代理？"></a>什么是动态代理？</h3><p>动态是指运行时动态创建某些接口的实例对象，当调用接口方法时会被分发到InvocationHandler的invoke方法中，代理是指动态创建的接口实例对象可以对某个对象做代理，进行hook等操作</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>为接口添加统一逻辑处理</li>
+<li>结合反射动态替换接口实现</li>
+<li>面向切面编程</li>
+</ul>
+<h3 id="为接口做统一逻辑处理"><a href="#为接口做统一逻辑处理" class="headerlink" title="为接口做统一逻辑处理"></a>为接口做统一逻辑处理</h3><p>使用动态代理生成实现某个接口代理对象然后在invocationHandler中做通用逻辑处理，例如Retrofit中巧妙利用动态代理实现网络请求</p>
+<p>简化版代码示例</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 代理接口</span></span><br><span class="line">    proxyInterface()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">proxyInterface</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> httpClient = HttpClient.Builder().build()</span><br><span class="line">    httpClient.create(Api::<span class="keyword">class</span>.java).request()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HttpClient</span> &#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Builder</span> &#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">build</span><span class="params">()</span></span>: HttpClient &#123;</span><br><span class="line">            <span class="keyword">return</span> HttpClient()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Suppress(<span class="string">&quot;UNCHECKED_CAST&quot;</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">create</span><span class="params">(server: <span class="type">Class</span>&lt;<span class="type">T</span>&gt;)</span></span>: T &#123;</span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(server.classLoader, arrayOf(server)) &#123; proxy, method, args -&gt;</span><br><span class="line">            println(<span class="string">&quot;proxy <span class="subst">$&#123;method.name&#125;</span>&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">as</span> T</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 请求接口</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Api</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">request</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">proxy request</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="结合反射动态替换接口实现"><a href="#结合反射动态替换接口实现" class="headerlink" title="结合反射动态替换接口实现"></a>结合反射动态替换接口实现</h3><p>通过反射替换静态成员对象为动态代理对象（实现了同样的接口），从而实现hook，对静态成员操作一次操作终身受用😭</p>
+<p>在Android系统低版本（好像是8.0以前）,AMS获取是通过ActivityManagerNative的getDefault方法获取的，getDefault返回的是ActivityManagerNative静态成员gDefault，某些插件化框架通过动态代理生IActivityManager代理对象并反射替换gDefault，实现对ActivityManagerNative的hook</p>
+<p>简化版示例代码</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 代理hook</span></span><br><span class="line">    proxyForHook()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">proxyForHook</span><span class="params">()</span></span> &#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">val</span> proxy = Proxy.newProxyInstance(</span><br><span class="line">        IActivityManager::<span class="keyword">class</span>.java.classLoader, arrayOf(IActivityManager::<span class="keyword">class</span>.java)</span><br><span class="line">    ) &#123; proxy, method, args -&gt;</span><br><span class="line">        println(<span class="string">&quot;proxy activitymanager&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> mInstanceField = Class.forName(<span class="string">&quot;Singleton&quot;</span>).getDeclaredField(<span class="string">&quot;mInstance&quot;</span>)</span><br><span class="line">    mInstanceField.isAccessible = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">val</span> gDefaultField = Class.forName(<span class="string">&quot;ActivityManagerNative&quot;</span>).getDeclaredField(<span class="string">&quot;gDefault&quot;</span>)</span><br><span class="line">    gDefaultField.isAccessible = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">val</span> gDefault = gDefaultField.<span class="keyword">get</span>(<span class="literal">null</span>)</span><br><span class="line">    mInstanceField.<span class="keyword">set</span>(gDefault, proxy)</span><br><span class="line">    ActivityManagerNative.getDefault()?.startActivity()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ActivityManagerNative</span> &#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="meta">@JvmStatic</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">val</span> gDefault = <span class="keyword">object</span> : Singleton&lt;IActivityManager&gt;() &#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">create</span><span class="params">()</span></span>: IActivityManager &#123;</span><br><span class="line">                <span class="keyword">return</span> ActivityManager()</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">getDefault</span><span class="params">()</span></span>: IActivityManager? = gDefault.<span class="keyword">get</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IActivityManager</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">startActivity</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ActivityManager</span> : <span class="type">IActivityManager</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">startActivity</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;start Activity&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&lt;<span class="type">T</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mInstance: T? = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">create</span><span class="params">()</span></span>: T</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">get</span><span class="params">()</span></span>: T? &#123;</span><br><span class="line">        synchronized(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mInstance == <span class="literal">null</span>) &#123;</span><br><span class="line">                mInstance = create()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> mInstance</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">proxy activitymanager</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="面向切面编程"><a href="#面向切面编程" class="headerlink" title="面向切面编程"></a>面向切面编程</h3><p>另外动态代理还可以用来做Aop面向切面编程，例如需要在被代理对象执行某个操作前后添加其他操作例如打印日志</p>
+<p>示例代码</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 代理AOP</span></span><br><span class="line">    proxyForAop()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">proxyForAop</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> person = Person()</span><br><span class="line">    <span class="keyword">val</span> personProxyHandler = PersonProxyHandler(person)</span><br><span class="line">    <span class="keyword">val</span> personProxy = Proxy.newProxyInstance(</span><br><span class="line">        person.javaClass.classLoader,</span><br><span class="line">        arrayOf(IAnimal::<span class="keyword">class</span>.java),</span><br><span class="line">        personProxyHandler</span><br><span class="line">    ) <span class="keyword">as</span> IAnimal</span><br><span class="line">    personProxy.eat()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PersonProxyHandler</span>(<span class="keyword">private</span> <span class="keyword">val</span> person: Person) : InvocationHandler &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">invoke</span><span class="params">(proxy: <span class="type">Any</span>?, method: <span class="type">Method</span>, args: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">Any</span>&gt;?)</span></span>: Any &#123;</span><br><span class="line">        println(<span class="string">&quot;doSomething before eat&quot;</span>)</span><br><span class="line">        method.invoke(person)</span><br><span class="line">        println(<span class="string">&quot;doSomething after eat&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Unit</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> : <span class="type">IAnimal</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">eat</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;start eat&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IAnimal</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">eat</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">doSomething before eat</span><br><span class="line">start eat</span><br><span class="line">doSomething after eat</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/25/Kotlin-Flow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/25/Kotlin-Flow/" class="post-title-link" itemprop="url">Kotlin Flow</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-25 17:58:21" itemprop="dateCreated datePublished" datetime="2023-08-25T17:58:21+08:00">2023-08-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kotlin/" itemprop="url" rel="index"><span itemprop="name">Kotlin</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h1><p>Flow是基于流的编程模型。更简单的说Flow代表数据流。</p>
+<p>数据流有三个重要角色</p>
+<p>producer：数据生产者</p>
+<p>imediatly：中介，可以修改数据流</p>
+<p>comsumer：数据消费者</p>
+<p>案例分析</p>
+<p>pancho（潘乔）需要到湖边打水，以前他都需要每次提桶到湖边打完水返回驻地。可能有时候到湖边发现湖水已经干涸。后来他发现他可以架设管道从湖边到驻地，这样他只需要打开水龙头就可以收集到水流了，并且可以观察到湖水是否已经干涸。</p>
+<p>这里的水流可以对应到应用中的数据流</p>
+<h2 id="响应式编程"><a href="#响应式编程" class="headerlink" title="响应式编程"></a>响应式编程</h2><p>像上面案例分析中这种观察者可以对被观察对象变化做出响应的系统称为响应式编程</p>
+<p>下面以一个定时器案例进行数据流创建、转换、收集</p>
+<h2 id="创建数据流"><a href="#创建数据流" class="headerlink" title="创建数据流"></a>创建数据流</h2><p>使用flow构建器方法创建</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataFlowViewModel</span> : <span class="type">ViewModel</span>() &#123;</span><br><span class="line">    <span class="keyword">val</span> countFlow = flow&#123;</span><br><span class="line">        <span class="keyword">var</span> count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            println(<span class="string">&quot;emit data:<span class="variable">$count</span>&quot;</span>)</span><br><span class="line">            emit(count)</span><br><span class="line">            delay(<span class="number">1000</span>)</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改数据流"><a href="#修改数据流" class="headerlink" title="修改数据流"></a>修改数据流</h2><p>使用中间操作符例如map进行转化，</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataFlowViewModel</span> : <span class="type">ViewModel</span>() &#123;</span><br><span class="line">    <span class="keyword">val</span> countFlow = flow&#123;</span><br><span class="line">        <span class="keyword">var</span> count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            println(<span class="string">&quot;emit data:<span class="variable">$count</span>&quot;</span>)</span><br><span class="line">            emit(count)</span><br><span class="line">            delay(<span class="number">1000</span>)</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.map &#123;</span><br><span class="line">      it.toString()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="从数据流中收集"><a href="#从数据流中收集" class="headerlink" title="从数据流中收集"></a>从数据流中收集</h2><p>通过终端操作符collect进行数据收集</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DataFlowActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> binding <span class="keyword">by</span> lazy &#123;</span><br><span class="line">        ActivityDataFlowBinding.inflate(layoutInflater)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> viewModel : DataFlowViewModel <span class="keyword">by</span> viewModels()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        <span class="keyword">val</span> root = binding.root</span><br><span class="line">        setContentView(root)</span><br><span class="line"></span><br><span class="line">        startCollect()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">startCollect</span><span class="params">()</span></span> &#123;</span><br><span class="line">        lifecycleScope.launch &#123;</span><br><span class="line">            repeatOnLifecycle(Lifecycle.State.STARTED)&#123;</span><br><span class="line">                viewModel.countFlow.collect &#123;</span><br><span class="line">                    println(<span class="string">&quot;collect data:<span class="variable">$it</span>&quot;</span>)</span><br><span class="line">                    binding.textview.text = it.toString()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>collect会触发数据发送以及数据流修改，并最终收集到数据</p>
+<blockquote>
+<p>注：协程中将这种按需创建并在被观察时才会发送数据的的数据流叫做冷流</p>
+</blockquote>
+<h2 id="在Android视图中收集数据流"><a href="#在Android视图中收集数据流" class="headerlink" title="在Android视图中收集数据流"></a>在Android视图中收集数据流</h2><p>通常我们是在Android视图中收集数据流，这时我们要关注两个方面，后台运行时不应该浪费资源和配置变更</p>
+<h3 id="安全收集"><a href="#安全收集" class="headerlink" title="安全收集"></a>安全收集</h3><p>安全收集的目的是页面置于后台的时候不应该浪费资源，这里所说的浪费资源是指countFlow属于冷流当置于后台时如果收集任务不取消后台生产者还可以持续的发送数据浪费内存资源。Google官方的建议是使用repeatOnlifecycle例如</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">lifecycleScope.launch &#123;</span><br><span class="line">    repeatOnLifecycle(Lifecycle.State.STARTED)&#123;</span><br><span class="line">        viewModel.countFlow.collect &#123;</span><br><span class="line">            println(<span class="string">&quot;collect data:<span class="variable">$it</span>&quot;</span>)</span><br><span class="line">            binding.textview.text = it.toString()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当页面进入后台时收集任务会被取消</p>
+<p>另外还提到有launchWhenStarted，页面进入后台后会挂起收集任务而不是取消，可能会造成一定内存开销</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">lifecycleScope.launchWhenStarted &#123;</span><br><span class="line">    repeatOnLifecycle(Lifecycle.State.STARTED)&#123;</span><br><span class="line">        viewModel.countFlow.collect &#123;</span><br><span class="line">            println(<span class="string">&quot;collect data:<span class="variable">$it</span>&quot;</span>)</span><br><span class="line">            binding.textview.text = it.toString()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置变更"><a href="#配置变更" class="headerlink" title="配置变更"></a>配置变更</h3><p>当配置变更时例如屏幕旋转会触发Activity重启，而ViewModel却会保留，使用冷流会导致重新收集数据创建新的数据流，造成资源浪费。有没有一种机制可以保证不管Activity重启多少次都不需要重新创建数据流呢。可以使用热流StateFlow，热流发送数据的活动独立于观察者，当重新触发收集数据时并不会创建新的数据流，并保留了重建前的数据。</p>
+<p>但是新的问题来了，对于上面短时间内重启情况下热流对我们很有用，但是如果按下Home键应用回到后台后，虽然收集任务被取消，但是由于热流的特性，后台可能还在继续发送数据，造成资源浪费。</p>
+<p>对于这个问题可以使用超时机制，利用stateIn运算符将冷流转为热流同时设置收集取消后数据发送等待多久自动取消</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> countFlow = flow&#123;</span><br><span class="line">    <span class="keyword">var</span> count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        println(<span class="string">&quot;emit data:<span class="variable">$count</span>&quot;</span>)</span><br><span class="line">        emit(count)</span><br><span class="line">        delay(<span class="number">1000</span>)</span><br><span class="line">        count++</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.map &#123;</span><br><span class="line">  it.toString()</span><br><span class="line">&#125;.stateIn(viewModelScope, SharingStarted.WhileSubscribed(<span class="number">5000</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果短时间内重启不会重建数据流，而长时间置于后台触发超时机制会自动取消数据发送,大功告成perfect😁</p>
+<h2 id="stateFlow"><a href="#stateFlow" class="headerlink" title="stateFlow"></a>stateFlow</h2><p>stateFlow是热数据流，负责更新stateFlow的类是生产者，收集数据的类是消费者，数据收集不会触发生产者数据发送。</p>
+<p>可使用stateFlow替换项目中的LiveData，但请注意StateFlow热流特性，页面销毁并不会停止数据发送</p>
+<p>基本用法：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LatestNewsViewModel</span>(</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> newsRepository: NewsRepository</span><br><span class="line">) : ViewModel() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Backing property to avoid state updates from other classes</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> _uiState = MutableStateFlow(LatestNewsUiState.Success(emptyList()))</span><br><span class="line">    <span class="comment">// The UI collects from this StateFlow to get its state updates</span></span><br><span class="line">    <span class="keyword">val</span> uiState: StateFlow&lt;LatestNewsUiState&gt; = _uiState</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        viewModelScope.launch &#123;</span><br><span class="line">            newsRepository.favoriteLatestNews</span><br><span class="line">                <span class="comment">// Update View with the latest favorite news</span></span><br><span class="line">                <span class="comment">// Writes to the value property of MutableStateFlow,</span></span><br><span class="line">                <span class="comment">// adding a new element to the flow and updating all</span></span><br><span class="line">                <span class="comment">// of its collectors</span></span><br><span class="line">                .collect &#123; favoriteNews -&gt;</span><br><span class="line">                    _uiState.value = LatestNewsUiState.Success(favoriteNews)</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Represents different states for the LatestNews screen</span></span><br><span class="line"><span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title class_">LatestNewsUiState</span> &#123;</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Success</span>(<span class="keyword">val</span> news: List&lt;ArticleHeadline&gt;): LatestNewsUiState()</span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Error</span>(<span class="keyword">val</span> exception: Throwable): LatestNewsUiState()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/" class="post-title-link" itemprop="url">Gc回收机制与分代回收策略</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-13 15:32:50" itemprop="dateCreated datePublished" datetime="2023-06-13T15:32:50+08:00">2023-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="GC回收机制"><a href="#GC回收机制" class="headerlink" title="GC回收机制"></a>GC回收机制</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h3><p>GC是Garbage Collection垃圾回收的英文释义</p>
+<p>什么是垃圾呢，垃圾是指内存中无用的对象。如何判断那些对象是无用对象呢，可以通过可达性分析来判断。</p>
+<p>那什么是可达性分析呢，可达性分析是指将内存中的对象引用关系用一张图来表示，GC Root对象作为顶点，对象引用关系连接线走过的路径叫做引用链，如果一个对象的引用链对Gc Root是不可达的那就认为这个对象是无用对象。</p>
+<h3 id="Gc-Root"><a href="#Gc-Root" class="headerlink" title="Gc Root"></a><strong>Gc Root</strong></h3><ul>
+<li>虚拟机栈局部变量表中引用的对象</li>
+<li>方法区中静态引用的对象</li>
+<li>存活的线程对象</li>
+<li>Native方法中JNI引用的对象</li>
+</ul>
+<h3 id="何时回收"><a href="#何时回收" class="headerlink" title="何时回收"></a><strong>何时回收</strong></h3><p>不同虚拟机会有不同的gc回收机制，一般来说以下两种情况都会触发垃圾回收：</p>
+<p>1.Allocation Failure：当内存过低导致内存分配时，会触发一次gc</p>
+<p>2.System.gc():应用层主动调用gc api</p>
+<h3 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a><strong>回收算法</strong></h3><p>gc回收算法常见的有三种分别是标记清除、复制清除、标记压缩</p>
+<h4 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h4><p>标记清除分为两个阶段</p>
+<p>标记阶段：</p>
+<p>从顶点的Gc Root对象开始遍历引用链，将垃圾对象标记为黑色，否则标记为灰色</p>
+<p>清除阶段：</p>
+<p>标记完成后，将垃圾对象全部清除</p>
+<p>优点：操作简单</p>
+<p>缺点：可能会产生内存碎片</p>
+<h4 id="复制清除"><a href="#复制清除" class="headerlink" title="复制清除"></a>复制清除</h4><p>将内存分为AB两块，每次只使用一块内存，将A内存设置为可用内存，gc回收时遍历Gc Root引用链进行标记，</p>
+<p>标记完成后，将存活对象复制到B内存块中，将A内存中的对象全部清除，将B内存设置为可用内存</p>
+<p>优点：运行高效，不会产生内存碎片</p>
+<p>缺点：可用内存会变为原来的一半</p>
+<h4 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h4><p>标记压缩也分为两个阶段</p>
+<p>标记阶段：</p>
+<p>遍历Gc Root引用链，标记无用对象为黑色否则为灰色</p>
+<p>压缩阶段：</p>
+<p>将存活对象压缩到内存的另一端，清除垃圾对象</p>
+<p>优点：不会产生内存碎片，不会造成内存浪费</p>
+<p>缺点：对象需要移动，一定程度上造成性能损失</p>
+<h2 id="分代回收策略"><a href="#分代回收策略" class="headerlink" title="分代回收策略"></a>分代回收策略</h2><p>虚拟机根据对象存活周期不同将堆内存分为几块，一般来说会分为新生代和老年代。新生代又分为eden、survivior0、survivor2三个区，新生代多次回收后还存活的对象会进入老年代。</p>
+<blockquote>
+<p>Hotspot除了新生代和老年代还有一个永久代</p>
+</blockquote>
+<img src="https://github.com/hezd/Image-Folders/blob/master/Blog/%E5%88%86%E4%BB%A3%E7%AD%96%E7%95%A5.png?raw=true" style="zoom:90%;" />
+
+<h3 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h3><p>新建的对象优先分配到新生代</p>
+<p>新生代对象会优先分配到Eden区，当Eden区满了以后，会将存活的对象复制到s0区并清空Eden区，当Eden区第二次满的时候，会将Eden区和s0去的存活对象复制到s1区并清空Eden区和s0区，s0和s1多次切换后（默认15次）还有存活的对象会进入老年代。</p>
+<p>从新生代的回收过程可以看到使用的是复制清除算法</p>
+<h3 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h3><p>新生代多次回收后还存活的对象会进入老年代，新生代分配大对象时如果内存不足也会进入老年代</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" class="post-title-link" itemprop="url">JVM内存区域</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-09 16:49:10" itemprop="dateCreated datePublished" datetime="2023-06-09T16:49:10+08:00">2023-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JVM内存区域"><a href="#JVM内存区域" class="headerlink" title="JVM内存区域"></a>JVM内存区域</h1><p>Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。</p>
+<p>JVM规范中定义的内存区域有：</p>
+<p>程序计数器、虚拟机栈、本地方方法栈、方法区、堆。</p>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用</p>
+<p>JVM规范中没有对程序计数器定义OutOfMemory之类的异常</p>
+<p>程序计数器是线程私有的，生命周期同线程一样</p>
+<blockquote>
+<p>如果线程执行的是Java方法代码实际上记录的是当前执行的class字节码指令的地址</p>
+<p>如果是是native方法记录会为空（undefined）</p>
+</blockquote>
+<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>虚拟机栈是用来描述Java方法执行的内存模型，每个Java方法在执行时JVM都会在虚拟机栈中创建一个栈帧</p>
+<p>栈帧包含：</p>
+<p>局部常量表、操作数栈、动态链接、返回地址</p>
+<p>JVM规范定义虚拟机栈的异常有：OutofMemoryError、StackOverFlowError</p>
+<p>虚拟机栈是线程私有的，生命周期同线程一样</p>
+<blockquote>
+<p>局部常量表：保存方法局部变量</p>
+<p>操作数栈：对常量表中的数据进行算术运算</p>
+<p>动态链接：方法调用时的方法符号转化为方法所在内存中地址的直接引用</p>
+<p>返回地址：方法执行完后要返回的代码位置</p>
+</blockquote>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方方法栈是针对于native方法的栈与虚拟机栈类似</p>
+<p>本地方法栈是线程私有，生命周期同线程一样</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区存储的是被JVM加载过的类信息、常量、静态变量、及时编译器编译过的代码和数据</p>
+<p>方法区数据是线程共享</p>
+<blockquote>
+<p>方法区是JVM规范，永久代和元空间是方法区的具体实现</p>
+</blockquote>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆存放的数据是Java程序运行时产生的对象实例</p>
+<p>JVM规范定义的堆的异常有：OutOfMemoryError</p>
+<p>堆数据是线程共享的</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/10/%E4%B8%89%E6%96%B9%E5%BA%93%E8%BF%81%E7%A7%BB%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/10/%E4%B8%89%E6%96%B9%E5%BA%93%E8%BF%81%E7%A7%BB%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" class="post-title-link" itemprop="url">三方库迁移至私有仓库</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-10 13:32:57" itemprop="dateCreated datePublished" datetime="2023-02-10T13:32:57+08:00">2023-02-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/maven/" itemprop="url" rel="index"><span itemprop="name">maven</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>​	项目拉取一些依赖库需要连指定仓库并且还要连vpn，而有时候vpn又不稳定，导致开发变的异常繁琐。因此想要把本地缓存过的依赖库迁移到私有仓库。</p>
+<p>​	需要用到<a target="_blank" rel="noopener" href="https://github.com/hezd/migrate-local-repo/raw/main/venv/tools/migrate-local-repo-tool.jar">migrate-local-repo-tool.jar</a>工具，它可以直接将本地maven仓库中的依赖库直接上传到远程仓库（或者符合本地仓库库目录结构样式的其他目录）。</p>
+<p>​	但是比如三方库我们本地仓库中并没有，只存在gradle的缓存目录中，这时就需要将gradle目录中的三方库格式化输出到一个目录中。</p>
+<p>需要解决的问题：</p>
+<ul>
+<li>依赖库缓存在哪里</li>
+<li>如何格式化输出</li>
+<li>如何上传</li>
+</ul>
+<h4 id="依赖库缓存"><a href="#依赖库缓存" class="headerlink" title="依赖库缓存"></a>依赖库缓存</h4><p>​	依赖库的缓存目录在用户目录下的.gradle&#x2F;caches目录，但是要找到库的目录就比较困难因为目录太多了，可以用反向查找的方式，在Android Studio中的依赖库列表External Libraries中找到依赖库jar包右键在文件夹中打开就可以找到了</p>
+<h4 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h4><p>​	为什么需要格式化输出，因为我们可以发现gradle缓存目录中的库目录结构是groupId作为目录名，而本地.m2仓库中目录结构是groupId分割以后每一段都是一级目录，举例：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">com.tyt.<span class="attr">goods:</span><span class="attr">dialog:</span><span class="number">1.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line">gradle缓存路径：</span><br><span class="line"><span class="regexp">/Users/</span>hezd<span class="regexp">/.gradle/</span>caches<span class="regexp">/modules-2/</span>files<span class="number">-2.1</span><span class="regexp">/com.tyt.goods/</span>dialog<span class="regexp">/1.0.0/</span>f86e207d698686ec58e48613c1f4f2c6e6e67283/dialog<span class="number">-1.0</span><span class="number">.0</span>.aar</span><br><span class="line">--&gt;</span><br><span class="line">com.tyt.goods<span class="regexp">/dialog/</span><span class="number">1.0</span><span class="number">.0</span><span class="regexp">/f86e207d698686ec58e48613c1f4f2c6e6e67283/</span>dialog<span class="number">-1.0</span><span class="number">.0</span>.aar</span><br><span class="line"></span><br><span class="line">本地仓库路径：</span><br><span class="line"><span class="regexp">/Users/</span>hezd<span class="regexp">/.m2/</span>repository<span class="regexp">/com/</span>tyt<span class="regexp">/goods/</span>dialog<span class="regexp">/1.0.0/</span>dialog<span class="number">-1.0</span><span class="number">.0</span>.aar	</span><br><span class="line">--&gt;</span><br><span class="line">com<span class="regexp">/tyt/</span>goods<span class="regexp">/dialog/</span><span class="number">1.0</span><span class="number">.0</span>/dialog<span class="number">-1.0</span><span class="number">.0</span>.aar</span><br></pre></td></tr></table></figure>
+
+<p>因此gradle缓存目录中库目录结构需要格式化为本地仓库中的格式</p>
+<blockquote>
+<p>为了避免误操作污染gradle缓存目录中的依赖库，可以将需要格式化输出的库拷贝到其他目录在做操作</p>
+</blockquote>
+<p>我是用了python脚本来处理格式化输出的</p>
+<p>脚本获取地址：<a target="_blank" rel="noopener" href="https://github.com/hezd/migrate-local-repo">migrate-local-repo</a> </p>
+<h4 id="仓库上传"><a href="#仓库上传" class="headerlink" title="仓库上传"></a>仓库上传</h4><p>格式化输出到目录后就要开始上传，例如格式化输出到temp&#x2F;release目录下，migrate-local-repo上传命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java -jar migrate-local-repo-tool.jar -cd &quot;temp/release&quot; -t &quot;你的仓库地址&quot; -u 你的用户名 -p 你的密码</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：上面命令中的参数需要根据自己环境做调整，不能无脑复制:smile:</p>
+</blockquote>
+<p>如果terminal出现部署成功的日志说明上传成功，如</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Sucessful Deployments:</span><br><span class="line">com.mb.gradle.plugin:app-opt:jar:1.1.1-REMOVE-MODULE-INFO-3-SNAPSHOT</span><br><span class="line">com.mb.gradle.plugin:app-opt:jar:sources:1.1.1-REMOVE-MODULE-INFO-3-SNAPSHOT</span><br><span class="line">com.mb.gradle.plugin:app-opt:pom:1.1.1-REMOVE-MODULE-INFO-3-SNAPSHOT</span><br></pre></td></tr></table></figure>
+
+
+
+<p>至此，将gradle缓存中依赖库迁移至远程私有仓库完成了!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/08/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/08/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" class="post-title-link" itemprop="url">二分查找</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-08 16:53:27" itemprop="dateCreated datePublished" datetime="2022-09-08T16:53:27+08:00">2022-09-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h4><ul>
+<li>什么是二分查找</li>
+<li>实现原理</li>
+</ul>
+<h5 id="什么是二分查找"><a href="#什么是二分查找" class="headerlink" title="什么是二分查找"></a>什么是二分查找</h5><blockquote>
+<p>二分查找是从一个有序数组中找到目标元素（通常是找下标）的过程</p>
+</blockquote>
+<h5 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h5><p>先来看两张图<br>图例1<br><img src="https://raw.githubusercontent.com/hezd/Image-Folders/master/algorithm/binary_search01.jpeg" alt="image"><br>图例2<br><img src="https://github.com/hezd/Image-Folders/blob/master/algorithm/binary_search02.jpeg?raw=true" alt="image"></p>
+<p>nums:有序数组<br>fromIndex：起始指针，跟toIndex一起确定查找范围<br>toIndex:结束指针，结合fromIndex确定查找范围<br>mid：中间指针，指向查找范围中间位置的指针<br>midValue:中间指针指向元素的值</p>
+<ul>
+<li>查找过程：<blockquote>
+<p>首先指定查找范围是整个数组，然后找到中间指针指向的元素（midVal）的值跟目标值（如target）进行比对，如果midVal小于target，fromIndex指针从mid位置向右移动一位(图例2)，反之toIndex从mid位置向左移动一位，重新确定查找范围，继续重复上述操作直到找到target等于midVal或者fromIndex&gt;toIndex查找结束</p>
+</blockquote>
+</li>
+</ul>
+<h6 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">fromIndex</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">toIndex</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (fromIndex &lt;= toIndex) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (fromIndex + toIndex) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">midVal</span> <span class="operator">=</span> nums[mid];</span><br><span class="line">            <span class="keyword">if</span> (midVal &lt; target) &#123;</span><br><span class="line">                fromIndex = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (midVal &gt; target) &#123;</span><br><span class="line">                toIndex = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/23/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/23/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">反转链表</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-23 17:14:46" itemprop="dateCreated datePublished" datetime="2022-08-23T17:14:46+08:00">2022-08-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h5 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h5><p>给定一个单链表的头结点pHead，长度为n，反转该链表后，返回新链表的表头</p>
+<h5 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h5><p>利用栈的先进后出的特点，先将单链表元素依次入栈后在依次弹出生成新的单链表</p>
+<blockquote>
+<p>步骤：</p>
+<p>①创建一个栈数据结构</p>
+<p>②遍历单链表并将元素push入栈</p>
+<p>③将栈顶第一个元素pop出栈并作为新链表表头</p>
+<p>④将栈中的元素依次pop出栈并生成新的单链表</p>
+<p>注意：</p>
+<p>栈底的最后一个元素作为单链表的尾节点，并且需要将next指向置空，否则会造成无限循环，因为这个元素来自于反转前的单链表表头next指向另一个节点的</p>
+</blockquote>
+<h5 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">	public class ListNode &#123;</span></span><br><span class="line"><span class="comment">    	int val;</span></span><br><span class="line"><span class="comment">    	ListNode next = null;</span></span><br><span class="line"><span class="comment">    	ListNode(int val) &#123;</span></span><br><span class="line"><span class="comment">    	   	this.val = val;</span></span><br><span class="line"><span class="comment">		&#125;</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">reverseListNode</span><span class="params">(ListNode head)</span>&#123;</span><br><span class="line">        <span class="comment">// 创建栈</span></span><br><span class="line">        Stack&lt;ListNode&gt; stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">// 遍历单链表并入栈</span></span><br><span class="line">        <span class="keyword">while</span>(head!=<span class="literal">null</span>)&#123;</span><br><span class="line">            stack.push(head);</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 栈顶元素出栈并作为反转后单链表头节点</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">node</span> <span class="operator">=</span> stack.pop();</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">result</span> <span class="operator">=</span> node;</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">tempNode</span> <span class="operator">=</span> stack.pop();</span><br><span class="line">            node.next = tempNode;</span><br><span class="line">            node = node.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 链表尾部节点next指向置空，防止死循环</span></span><br><span class="line">        node.next = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题目链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/exam/oj?page=1&tab=%E7%AE%97%E6%B3%95%E7%AF%87&topicId=295">https://www.nowcoder.com/exam/oj?page=1&amp;tab=%E7%AE%97%E6%B3%95%E7%AF%87&amp;topicId=295</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/01/%E9%93%BE%E8%A1%A8%E5%80%92%E6%95%B0%E7%AC%ACK%E5%85%83%E7%B4%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hezd">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hezd的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/01/%E9%93%BE%E8%A1%A8%E5%80%92%E6%95%B0%E7%AC%ACK%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">链表倒数第K元素</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-01 15:46:44" itemprop="dateCreated datePublished" datetime="2022-08-01T15:46:44+08:00">2022-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h5 id="单链表查找倒数第K个元素"><a href="#单链表查找倒数第K个元素" class="headerlink" title="单链表查找倒数第K个元素"></a>单链表查找倒数第K个元素</h5><p>给定一个单链表查找倒数第k个元素，例如单链表有节点1-&gt;2-&gt;3-&gt;4-&gt;5查找倒数第2个元素</p>
+<h5 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a><img src="data:image/png;base64,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">解题思路</h5><p>使用快慢指针fast和slow，fast先移动K步，slow指针指向头节点head，然后同时开始移动快慢指针指针直到fast指针移动到链表尾部时slow指针指向的节点就是倒数第k个节点元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ListNode</span> &#123;</span><br><span class="line">     <span class="type">int</span> val;</span><br><span class="line">      ListNode next;</span><br><span class="line">     ListNode(<span class="type">int</span> x) &#123; val = x; &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title function_">getKthFromEnd</span><span class="params">(ListNode head,<span class="type">int</span> k)</span>&#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="comment">// 先将快指针移动K步</span></span><br><span class="line">        <span class="keyword">while</span>(k&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">            k--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 同时移动快慢指针直到快指针移动到链表尾部</span></span><br><span class="line">        <span class="keyword">while</span>(fast!=<span class="literal">null</span>)&#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/">https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hezd"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">hezd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hezd" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hezd" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dreamkid0924@gmail.com" title="E-Mail → mailto:dreamkid0924@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hezd</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+</body>
+</html>
