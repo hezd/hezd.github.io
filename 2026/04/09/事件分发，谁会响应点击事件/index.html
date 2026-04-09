@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="JVM内存区域Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。 JVM规范中定义的内存区域有： 程序计数器、虚拟机栈、本地方方法栈、方法区、堆。 程序计数器在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用 JVM规范中没有对程序计数器">
+  <meta name="description" content="事件分发，谁会响应点击事件？一、背景场景是在一个Activity中有一个ViewGroup（比如Framelayout），ViewGroup中有一个子View，手指在子view上按下然后滑动直到ViewGroup区域外松开手指，如果他们两个都设置了click监听，那么谁会响应到点击事件呢？为什么？ 二、分析先来回顾一下事件分发机制，首先需要了解三个非常重要的方法dispatchTouchEvent">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM内存区域">
-<meta property="og:url" content="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/index.html">
+<meta property="og:title" content="事件分发，谁会响应点击事件?">
+<meta property="og:url" content="http://example.com/2026/04/09/%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%EF%BC%8C%E8%B0%81%E4%BC%9A%E5%93%8D%E5%BA%94%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Hezd的博客">
-<meta property="og:description" content="JVM内存区域Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。 JVM规范中定义的内存区域有： 程序计数器、虚拟机栈、本地方方法栈、方法区、堆。 程序计数器在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用 JVM规范中没有对程序计数器">
+<meta property="og:description" content="事件分发，谁会响应点击事件？一、背景场景是在一个Activity中有一个ViewGroup（比如Framelayout），ViewGroup中有一个子View，手指在子view上按下然后滑动直到ViewGroup区域外松开手指，如果他们两个都设置了click监听，那么谁会响应到点击事件呢？为什么？ 二、分析先来回顾一下事件分发机制，首先需要了解三个非常重要的方法dispatchTouchEvent">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-09T08:49:10.000Z">
-<meta property="article:modified_time" content="2026-04-08T15:14:11.885Z">
+<meta property="article:published_time" content="2026-04-09T08:19:55.000Z">
+<meta property="article:modified_time" content="2026-04-09T16:46:38.742Z">
 <meta property="article:author" content="hezd">
-<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="面试题">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+<link rel="canonical" href="http://example.com/2026/04/09/%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%EF%BC%8C%E8%B0%81%E4%BC%9A%E5%93%8D%E5%BA%94%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>JVM内存区域 | Hezd的博客</title>
+  <title>事件分发，谁会响应点击事件? | Hezd的博客</title>
   
 
 
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/09/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/04/09/%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%EF%BC%8C%E8%B0%81%E4%BC%9A%E5%93%8D%E5%BA%94%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -208,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          JVM内存区域
+          事件分发，谁会响应点击事件?
         </h1>
 
         <div class="post-meta">
@@ -218,14 +218,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-06-09 16:49:10" itemprop="dateCreated datePublished" datetime="2023-06-09T16:49:10+08:00">2023-06-09</time>
+              <time title="创建时间：2026-04-09 16:19:55" itemprop="dateCreated datePublished" datetime="2026-04-09T16:19:55+08:00">2026-04-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-04-08 23:14:11" itemprop="dateModified" datetime="2026-04-08T23:14:11+08:00">2026-04-08</time>
+                <time title="修改时间：2026-04-10 00:46:38" itemprop="dateModified" datetime="2026-04-10T00:46:38+08:00">2026-04-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,11 +233,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
                 </span>
             </span>
 
@@ -259,38 +255,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="JVM内存区域"><a href="#JVM内存区域" class="headerlink" title="JVM内存区域"></a>JVM内存区域</h1><p>Java程序在运行过程中会在内存中生成对象、常量等各种数据，JVM为了方便管理这些数据对内存中的数据进行了区域划分。</p>
-<p>JVM规范中定义的内存区域有：</p>
-<p>程序计数器、虚拟机栈、本地方方法栈、方法区、堆。</p>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>在Java多线程执行中cpu会为多线程分配执行时间片段，当某个线程被挂起时需要记录当前线程执行的位置，以便在恢复时继续执行。这就是程序计数器的作用</p>
-<p>JVM规范中没有对程序计数器定义OutOfMemory之类的异常</p>
-<p>程序计数器是线程私有的，生命周期同线程一样</p>
-<blockquote>
-<p>如果线程执行的是Java方法代码实际上记录的是当前执行的class字节码指令的地址</p>
-<p>如果是是native方法记录会为空（undefined）</p>
-</blockquote>
-<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>虚拟机栈是用来描述Java方法执行的内存模型，每个Java方法在执行时JVM都会在虚拟机栈中创建一个栈帧</p>
-<p>栈帧包含：</p>
-<p>局部常量表、操作数栈、动态链接、返回地址</p>
-<p>JVM规范定义虚拟机栈的异常有：OutofMemoryError、StackOverFlowError</p>
-<p>虚拟机栈是线程私有的，生命周期同线程一样</p>
-<blockquote>
-<p>局部常量表：保存方法局部变量</p>
-<p>操作数栈：对常量表中的数据进行算术运算</p>
-<p>动态链接：方法调用时的方法符号转化为方法所在内存中地址的直接引用</p>
-<p>返回地址：方法执行完后要返回的代码位置</p>
-</blockquote>
-<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方方法栈是针对于native方法的栈与虚拟机栈类似</p>
-<p>本地方法栈是线程私有，生命周期同线程一样</p>
-<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区存储的是被JVM加载过的类信息、常量、静态变量、及时编译器编译过的代码和数据</p>
-<p>方法区数据是线程共享</p>
-<blockquote>
-<p>方法区是JVM规范，永久代和元空间是方法区的具体实现</p>
-</blockquote>
-<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆存放的数据是Java程序运行时产生的对象实例</p>
-<p>JVM规范定义的堆的异常有：OutOfMemoryError</p>
-<p>堆数据是线程共享的</p>
+        <h1 id="事件分发，谁会响应点击事件？"><a href="#事件分发，谁会响应点击事件？" class="headerlink" title="事件分发，谁会响应点击事件？"></a>事件分发，谁会响应点击事件？</h1><h3 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h3><p>场景是在一个Activity中有一个ViewGroup（比如Framelayout），ViewGroup中有一个子View，手指在子view上按下然后滑动直到ViewGroup区域外松开手指，如果他们两个都设置了click监听，那么谁会响应到点击事件呢？为什么？</p>
+<h3 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h3><p>先来回顾一下<strong>事件分发机制</strong>，首先需要了解三个非常重要的方法<code>dispatchTouchEvent</code> <code>onInterceptTouchEvent</code> <code>onTouchEvent</code></p>
+<p><strong>dispatchTouchEvent：</strong>事件分发逻辑，返回结果依赖当前View的onTouchEvent和下级view的dispatchTouchEvent方法结果，表示是否消耗此事件</p>
+<p><strong>onInterceptTouchEvent：</strong>在dispathTouchEvent方法内调用表示是否拦截事件，如果当前view拦截了某个事件，那么在同一个事件序列中此方法不会被再次调用</p>
+<p><strong>onTouchEvent：</strong>用来处理点击事件表示是否消耗当前事件，如果不消耗，在同一个事件序列中，无法再次接收到事件</p>
+<p>通过一段经典伪代码来展示他们之间的关系</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">dispatchTouchEvent</span><span class="params">(MotionEvent event)</span>&#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">consume</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(onInterceptToucheEvent(event))&#123;</span><br><span class="line">    	consume = onTouchEvent(event);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      consume = child.dispatchTouchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">return</span> consume;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>实际代码细节还有很多，为了更好理解和解决实际开发中的问题，包括上面提到谁会响应点击事件诸如此类问题。下面先总结事件分发的规则在通过代码源码分析验证</p>
+<h4 id="2-1分发规则"><a href="#2-1分发规则" class="headerlink" title="2.1分发规则"></a>2.1分发规则</h4><p>分发规则其实是上面经典的伪代码的体现以及细节补充</p>
+<ol>
+<li>分发规则是针对某一次的事件序列，事件序列是指手指按下触发到松开手指过程中产生的down、up和move事件</li>
+<li>正常情况下一个事件序列只能被一个view消耗，一旦view开始处理事件消耗了down事件同一个事件序列中的后续事件都会交给它处理，特殊情况是代码调用onTouchEvent强制传递给其他View</li>
+<li>如果一个view不消耗down事件，那么这个事件序列中的其他事件也不会在交给它处理并且事件会重新被传递给父View同时父View的onTouchEvent方法会被调用</li>
+<li>如果一个VIew不消耗down事件以外的其他事件，那么这个事件会消失，不会传递给父View，父view的onTouchEvent方法不会被调用，最终这些事件会传递给Activity处理</li>
+<li>一旦viewgroup拦截事件，同一个事件序列中后续事件都会交给它来处理，并且onInterceptTouchEvent不会被再次调用</li>
+<li>viewGourp默认不拦截事件，它的onInterceptTouchEvent默认返回false</li>
+<li>view没有onInterceptTouchEvent方法，事件传递给View后它的onTouchEvent方法会被调用</li>
+<li>view的onTouchEvent默认都会消耗事件返回true，除非view是不可点击的，clickable和longClickable同时为false。不受enable属性限制</li>
+<li>view的click能响应的条件是可以点击并且接收到了down和up事件</li>
+<li>通过requestDisallowInterceptTouchEvent可以在子View中干预父View的事件分发过程但down事件除外</li>
+</ol>
+<h4 id="2-2源码解析"><a href="#2-2源码解析" class="headerlink" title="2.2源码解析"></a>2.2源码解析</h4><p>源码解析是对分发规则的验证，同时对分发规则中更多细节逻辑的补充说明</p>
+<p>以Android 12系统源代码为例先来看ViewGroup的dispatchTouchEvent</p>
+<p><code>/Users/hezd/Library/Android/sdk/platforms/android-31/android.jar!/android/view/ViewGroup.class</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> &#123;</span><br><span class="line">       <span class="comment">// 忽略其他无关代码...</span></span><br><span class="line">       <span class="comment">// Check for interception.</span></span><br><span class="line">      <span class="keyword">final</span> <span class="type">boolean</span> intercepted;</span><br><span class="line">      <span class="keyword">if</span> (actionMasked == MotionEvent.ACTION_DOWN</span><br><span class="line">              || mFirstTouchTarget != <span class="literal">null</span>) &#123;</span><br><span class="line">          <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">disallowIntercept</span> <span class="operator">=</span> (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != <span class="number">0</span>;</span><br><span class="line">          <span class="keyword">if</span> (!disallowIntercept) &#123;</span><br><span class="line">              intercepted = onInterceptTouchEvent(ev);</span><br><span class="line">              ev.setAction(action); <span class="comment">// restore action in case it was changed</span></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              intercepted = <span class="literal">false</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// There are no touch targets and this action is not an initial down</span></span><br><span class="line">          <span class="comment">// so this view group continues to intercept touches.</span></span><br><span class="line">          intercepted = <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="comment">// 忽略其他无关代码...</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面这部分代码可以看出</p>
+<h4 id="2-3案例解析：谁会响应点击事件"><a href="#2-3案例解析：谁会响应点击事件" class="headerlink" title="2.3案例解析：谁会响应点击事件"></a>2.3案例解析：谁会响应点击事件</h4><h3 id="三、代码验证"><a href="#三、代码验证" class="headerlink" title="三、代码验证"></a>三、代码验证</h3>
     </div>
 
     
@@ -299,7 +292,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JVM/" rel="tag"># JVM</a>
+              <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"># 面试题</a>
           </div>
 
         
@@ -308,13 +301,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/02/10/%E4%B8%89%E6%96%B9%E5%BA%93%E8%BF%81%E7%A7%BB%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" rel="prev" title="三方库迁移至私有仓库">
-      <i class="fa fa-chevron-left"></i> 三方库迁移至私有仓库
+    <a href="/2026/04/09/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B/" rel="prev" title="Hexo博客迁移教程">
+      <i class="fa fa-chevron-left"></i> Hexo博客迁移教程
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/06/13/Gc%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/" rel="next" title="Gc回收机制与分代回收策略">
-      Gc回收机制与分代回收策略 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -374,7 +364,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.</span> <span class="nav-text">JVM内存区域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">1.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">1.4.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">1.5.</span> <span class="nav-text">堆</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%EF%BC%8C%E8%B0%81%E4%BC%9A%E5%93%8D%E5%BA%94%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">事件分发，谁会响应点击事件？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%83%8C%E6%99%AF"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%88%86%E6%9E%90"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1%E5%88%86%E5%8F%91%E8%A7%84%E5%88%99"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1分发规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2源码解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90%EF%BC%9A%E8%B0%81%E4%BC%9A%E5%93%8D%E5%BA%94%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">2.3案例解析：谁会响应点击事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E7%A0%81%E9%AA%8C%E8%AF%81"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、代码验证</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -533,7 +523,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'hezd.github.io',
       owner       : 'hezd',
       admin       : ['hezd'],
-      id          : '6970b667081b0549777fd73fd4e77285',
+      id          : 'bab52f593c27a9eb13360febc151d243',
         language: 'zh-CN',
       distractionFreeMode: true
     });
